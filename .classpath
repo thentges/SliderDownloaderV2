@@ -3,5 +3,28 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Ressources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/commons-lang3-3.5.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/cssparser-0.9.23.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/htmlunit-2.27.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/htmlunit-core-js-2.27.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/httpclient-4.5.3.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/httpcore-4.4.6.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/httpmime-4.5.3.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/jetty-client-9.4.5.v20170502.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/jetty-http-9.4.5.v20170502.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/jetty-io-9.4.5.v20170502.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/jetty-util-9.4.5.v20170502.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/neko-htmlunit-2.27.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/sac-1.3.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/serializer-2.7.2.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/websocket-api-9.4.5.v20170502.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/websocket-client-9.4.5.v20170502.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/websocket-common-9.4.5.v20170502.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/xalan-2.7.2.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/xercesImpl-2.11.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Thibault/Downloads/htmlunit-2.27/lib/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
