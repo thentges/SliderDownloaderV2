@@ -189,8 +189,9 @@ public class SliderDownloaderV2 {
 		//INITIALISATION
 		File filePath = new File("path.txt");
 		//File fileErreur = new File("liste_erreur.txt");
-		System.out.println(getFirstLine(filePath));
-		JFrame fenetre = new JFrame(); // CRÉATION D'UNE FENETRE
+		
+		//FENETRE
+		JFrame fenetre = new JFrame(); 
 	    fenetre.setTitle("SliderDownloader"); 
 	    fenetre.setSize(300, 400);
 	    fenetre.setLocationRelativeTo(null); // PLACE LA FENETRE AU CENTRE
@@ -199,9 +200,20 @@ public class SliderDownloaderV2 {
 	    fenetre.setContentPane(new Accueil()); //afficher l'accueil
 	    fenetre.getContentPane().setLayout(null);
 	    
+	    //BOUTON OUVRIR LE FICHIER
+	    JButton btnOpen = new JButton("Ouvrir le fichier");
+	    btnOpen.setBounds(50, 170, 200, 20);
+	    btnOpen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
+				open(new File(getFirstLine(filePath)));
+			}
+	         });
+	    fenetre.getContentPane().add(btnOpen);
+	    
 	    //BOUTON SELECTIONNER UN FICHIER
 	    JButton btnSelect = new JButton("Selectionner un autre fichier");
-	    btnSelect.setBounds(50, 170, 200, 20);
+	    btnSelect.setBounds(50, 200, 200, 20);
 	    btnSelect.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
@@ -213,24 +225,27 @@ public class SliderDownloaderV2 {
                 selecteur.setDialogTitle("Choississez une liste de sons au format .txt");
 			    int retour=selecteur.showOpenDialog(null);
 			    if(retour==JFileChooser.APPROVE_OPTION){
-			    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath());
+			    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // sauvegarde le chemin
 			    }
 			}
 	         });
 	    fenetre.getContentPane().add(btnSelect);
 	    
+	    // BOUTON LANCER LE PROGRAMME
 	    JButton btnLaunch = new JButton("Lancer le programme");
-	    btnLaunch.setBounds(50, 200, 200, 70);
+	    btnLaunch.setBounds(50, 230, 200, 70);
 	    fenetre.getContentPane().add(btnLaunch);
+	    fenetre.setVisible(true);
 	    btnLaunch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-
+			
 			}
 	         });
-	   
-		fenetre.setVisible(true);
-
+	    
+	    
+	    
+		
 	}
 
 }

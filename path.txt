@@ -1,1 +1,1 @@
-/Users/Thibault/Documents/workspace/SLIDERDOWNLOADER_finalV1/liste_erreur.txt
+/Users/Thibault/Documents/workspace/SliderDownloader_clean/liste_liens.txt
