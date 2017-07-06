@@ -248,7 +248,6 @@ public class SliderDownloaderV2 {
 	    btnLaunch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-				accueil.setVisible(false);
 				fenetre.setContentPane(new Chargement()); //afficher l'écran de chargement
 				
 				 
