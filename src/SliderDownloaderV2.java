@@ -259,7 +259,8 @@ static int choix=0;
 	    while (choix!=1){
 	    	System.out.println("choix pas égal a 1"); 
 	    }
-	    fenetre.setContentPane(new Chargement()); //afficher l'écran de chargement
+	    Chargement chargement = new Chargement();
+	    fenetre.setContentPane(chargement); //afficher l'écran de chargement
 	    fenetre.setVisible(true);
 	 // PROGRAMME COMMENCE ICI
     	System.out.println("LE PROGRAMME COMMENCE"); // pour test
@@ -276,6 +277,7 @@ static int choix=0;
 					// Lire le fichier ligne par ligne 
 					// La boucle se termine quand la méthode affiche "null" 
 					while ((nom = buff.readLine()) != null) {	
+						chargement.setNom(nom);
 						String end = nom.substring(nom.length()-4) +".mp3";
 						String lien = sliderify(nom);
 						// se connecte a slider et attends l'execution du JS.

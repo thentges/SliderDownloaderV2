@@ -7,20 +7,25 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Chargement extends JPanel {
+	private String nom;
+	
+	public void setNom(String str){
+		nom = str;
+	}
 public void paintComponent(Graphics g){
 		
+		// GIF TEST
+    	
+		Image icon = new ImageIcon("chargement.gif").getImage();
+		g.drawImage(icon, 0, 0, this);
 		// COULEUR DE FOND
 	    this.setBackground(Color.BLACK); 
-	    // CREDITS FOOTER
-	    Font fontFooter = new Font("Arial", Font.PLAIN, 10);
-	    FontMetrics metricsFooter = g.getFontMetrics(fontFooter);
-	    g.setFont(fontFooter);
-	    g.setColor(Color.GRAY);
-	    String strFooter = "SliderDownloader v.2 par Thibault HENTGÈS";
-	    g.drawString(strFooter, (300 - metricsFooter.stringWidth(strFooter))/2, 370);   
 	    // LOGO HEADER
 	    try {
 	        Image img = ImageIO.read(new File("slider_logo.png"));
@@ -28,6 +33,15 @@ public void paintComponent(Graphics g){
 	      } catch (IOException e) {
 	        e.printStackTrace();
 	      }
-	    
+	    // EN COURS
+	    Font fontEnCours = new Font("Arial", Font.PLAIN, 15);
+	    FontMetrics metricsEnCours = g.getFontMetrics(fontEnCours);
+	    g.setFont(fontEnCours);
+	    g.setColor(Color.GRAY);
+	    String strEnCours = nom;
+	    g.drawString(strEnCours, (300 - metricsEnCours.stringWidth(strEnCours))/2, 130);   
+	    repaint();
+	      
+
 	}               
 }
