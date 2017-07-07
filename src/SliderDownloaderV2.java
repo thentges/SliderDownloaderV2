@@ -31,6 +31,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /*       						TODO
  *  REGLER SOUCIS CHEEDRA setBackground(Color.BLACK); fonctionne AP
  *  CAS PATH existe ap
+ *  AJOUTER GESTION DES IMAGES DANS LE .JAR
  * 								TODO	
  */ 
 
