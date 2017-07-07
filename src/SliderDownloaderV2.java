@@ -28,6 +28,21 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+/*       						TODO
+ *  REGLER SOUCIS CHEEDRA setBackground(Color.BLACK); fonctionne AP
+ * PAGE FIN : 
+ * - afficher le nombre de fails
+ * - bouton tout télécharger (if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
+										for ...
+										open liste_sons.get(i)
+									}
+ * - bouton ouvrir la liste d'erreur
+ * - bouton revenir a l'accueil ?
+ * PAGE CHARGEMENT :
+ * x sur y
+ * barre de progression ?
+ * 								TODO	
+ */ 
 
 public class SliderDownloaderV2 {
 	
