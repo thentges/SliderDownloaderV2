@@ -199,7 +199,8 @@ public class SliderDownloaderV2 {
 
 		//FENETRE
 		JFrame fenetre = new JFrame(); 
-	    fenetre.setTitle("SliderDownloader");  
+	    fenetre.setTitle("SliderDownloader"); 
+	    fenetre.setBackground(Color.BLACK);
 	    fenetre.setSize(300, 400);
 	    fenetre.setLocationRelativeTo(null); // PLACE LA FENETRE AU CENTRE
 	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // stoppe le programme a la fermeture (croix rouge) 
