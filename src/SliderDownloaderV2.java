@@ -186,16 +186,7 @@ public class SliderDownloaderV2 {
 		
 		File filePath = new File("Ressources/path.txt");
 		File fileErreur = new File("liste_erreur.txt");
-		if (getFirstLine(filePath)!=null){
-			System.out.println("jesuisla");
-			File fileSons = new File(getFirstLine(filePath));
-			if (!fileSons.exists()){
-				FileChooser(filePath);
-			}
-		}
-		else{
-			FileChooser(filePath);
-		}
+		
 
 		//FENETRE
 		JFrame fenetre = new JFrame(); 
@@ -244,6 +235,16 @@ public class SliderDownloaderV2 {
 			}
 	         });
 	    do{
+	    	if (getFirstLine(filePath)!=null){
+				System.out.println("jesuisla");
+				File fileSons = new File(getFirstLine(filePath));
+				if (!fileSons.exists()){
+					FileChooser(filePath);
+				}
+			}
+			else{
+				FileChooser(filePath);
+			}
 	    fenetre.setContentPane(accueil); //afficher l'accueil
 		fenetre.getContentPane().setLayout(null);
 	    fenetre.getContentPane().add(btnOpen);
