@@ -29,7 +29,12 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /*       						TODO
- *  REGLER SOUCIS DOUBLES FENETRES (CHEEDRA)
+ *  REGLER SOUCIS DOUBLES FENETRES (CHEEDRA) -- possiblement fix, en attente retour chidra
+ *  MAJ ReadMe -- BUT + Comment l'utiliser (archive ...) + comment il fonctionne?
+ *  Description sur git
+ *  Passer repo en Public
+ *  nettoyer le code (System.out.println), (import non utilisés)...
+ *  Exporter FINAL JAR
  * 								TODO	
  */ 
 
