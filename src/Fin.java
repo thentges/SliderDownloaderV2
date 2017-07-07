@@ -47,12 +47,21 @@ public void paintComponent(Graphics g){
 	    g.setFont(fontRecap);
 	    g.setColor(Color.GREEN);
 	    if (compteurLignes - compteurErreur == 1){
-	    	strRecapDL = compteurLignes-compteurErreur +" morceau téléchargé";
+	    	strRecapDL = compteurLignes-compteurErreur +" morceau récupéré";
 		}
 		else {
-			strRecapDL = compteurLignes-compteurErreur +" morceaux téléchargés";
+			strRecapDL = compteurLignes-compteurErreur +" morceaux récupérés";
 		}
 	    g.drawString(strRecapDL, (300 - metricsRecap.stringWidth(strRecapDL))/2, 130);   
+	    g.setColor(Color.RED);
+	    if (compteurErreur==1){
+	    	strRecapFail = compteurErreur + " morceau non trouvé";
+	    	g.drawString(strRecapFail, (300 - metricsRecap.stringWidth(strRecapFail))/2, 150); 
+	    }
+	    else if (compteurErreur>1){
+	    	strRecapFail = compteurErreur + " morceaux non trouvés";
+	    	g.drawString(strRecapFail, (300 - metricsRecap.stringWidth(strRecapFail))/2, 150); 
+	    }
 	    
 	}               
 }

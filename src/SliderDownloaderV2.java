@@ -30,6 +30,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /*       						TODO
  *  REGLER SOUCIS CHEEDRA setBackground(Color.BLACK); fonctionne AP
+ *  CAS PATH existe ap
  * PAGE FIN : 
  * - afficher le nombre de fails
  * - bouton tout télécharger (if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
@@ -38,9 +39,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 									}
  * - bouton ouvrir la liste d'erreur
  * - bouton revenir a l'accueil ?
- * PAGE CHARGEMENT :
- * x sur y
- * barre de progression ?
  * 								TODO	
  */ 
 
@@ -104,36 +102,6 @@ public class SliderDownloaderV2 {
 			} 
 		
 		return line;
-		} 
-	
-	public static int getNbLignes(File file){ // RECUPERE NOMBRE LIGNES D'UN FICHIER
-		int compteur=0;
-		try{ 
-
-			BufferedReader buff = new BufferedReader(new FileReader(file.getAbsolutePath())); 
-
-			try { 
-			String line; 
-			// Lire le fichier ligne par ligne 
-			// La boucle se termine quand la méthode affiche "null" 
-			while ((line = buff.readLine()) != null) {
-				compteur=compteur+1;
-			}
-			
-			buff.close(); //Lecture fini donc on ferme le flux 
-			} 
-
-			catch (IOException e){ 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-
-			} 
-			catch (IOException e) { 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-		return compteur;
 		} 
 	
 	public static void playSound(String morceau){ // joue un son (string=path du fichier)
@@ -262,7 +230,6 @@ static int choix=0;
 	    btnLaunch.setBounds(50, 230, 200, 70);
 	    fenetre.getContentPane().add(btnLaunch);
 	    fenetre.setVisible(true);
-	    
 	    btnLaunch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
@@ -271,6 +238,7 @@ static int choix=0;
 				System.out.println(choix);
 			}
 	         });
+	    
 	    while (choix!=1){
 	    	System.out.println("choix pas égal a 1"); 
 	    }
@@ -351,10 +319,12 @@ static int choix=0;
 							liste_sons.add(link);
 							liste_liens.clear();
 							compteurLignes=compteurLignes+1;
+							chargement.setCompteurLignes(compteurLignes);
 						}
 						else { 
 							compteurErreur=compteurErreur+1;
 							compteurLignes=compteurLignes+1;
+							chargement.setCompteurLignes(compteurLignes);
 							liste_erreur.add(nom);
 	        
 						}
@@ -364,6 +334,7 @@ static int choix=0;
 					playSound("Ressources/ah_denis.wav");
 					ecrire(new File(getFirstLine(filePath)) , ""); // vide la liste des sons
 					Fin end = new Fin();
+					System.out.println(liste_sons);
 					end.setCompteurLignes(compteurLignes);
 					end.setCompteurErreur(compteurErreur);
 					fenetre.setContentPane(end); //afficher l'écran de chargement
@@ -373,14 +344,14 @@ static int choix=0;
 					buff.close(); //Lecture fini donc on ferme le flux 
 				} 
 
-				catch (IOException e1){ 
-					System.out.println(e1.getMessage()); 
+				catch (IOException e){ 
+					System.out.println(e.getMessage()); 
 					System.exit(1); 
 				} 
 		
 		} 
-				catch (IOException e1) { 
-					System.out.println(e1.getMessage()); 
+				catch (IOException e) { 
+					System.out.println(e.getMessage()); 
 					System.exit(1); 
 			} 
     

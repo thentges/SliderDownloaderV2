@@ -90,7 +90,7 @@ public class Accueil extends JPanel {
 	      } catch (IOException e) {
 	        e.printStackTrace();
 	      }
-	    //RECAP FICHIER
+	    //RECAP FICHIER 
 	    String name = fileSons.getName();
 	    int nbLignes = getNbLignes(fileSons);
 	    Font fontRecap = new Font("Arial", Font.PLAIN, 12);
