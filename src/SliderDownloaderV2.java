@@ -31,9 +31,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /*       						TODO
  *  REGLER SOUCIS CHEEDRA setBackground(Color.BLACK); fonctionne AP
  *  CAS PATH existe ap
- * PAGE FIN : 									
- * - bouton ouvrir la liste d'erreur
- * - bouton revenir a l'accueil ?
  * 								TODO	
  */ 
 
@@ -162,9 +159,6 @@ public class SliderDownloaderV2 {
 		
 	}
 	
-	public static void setVariable(int var, int valeur){
-		var = valeur;
-	}
 	// ARRAYS pour execution du programme
 	
 	static ArrayList<String> liste_sons = new ArrayList<String>(); // liste des liens sliders
@@ -172,7 +166,7 @@ public class SliderDownloaderV2 {
 	static ArrayList<String> liste_erreur = new ArrayList<String>(); // liste des erreurs
 static int choix=0;
 	public static void main(String[] args) {
-		
+		do{
 		//INITIALISATION
 		
 		File filePath = new File("path.txt");
@@ -195,7 +189,9 @@ static int choix=0;
 	    btnOpen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-				open(new File(getFirstLine(filePath)));
+				if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
+					open(new File(getFirstLine(filePath)));
+				}
 			}
 	         });
 	    fenetre.getContentPane().add(btnOpen);
@@ -329,18 +325,17 @@ static int choix=0;
 					playSound("Ressources/ah_denis.wav");
 					ecrire(new File(getFirstLine(filePath)) , ""); // vide la liste des sons
 					Fin end = new Fin();
-					System.out.println(liste_sons);
 					end.setCompteurLignes(compteurLignes);
 					end.setCompteurErreur(compteurErreur);
 					fenetre.setContentPane(end); //afficher l'écran de chargement
 					fenetre.getContentPane().setLayout(null);
 					// BOUTON TELECHARGER 
 					JButton btnDL = new JButton("Telecharger les morceaux");
-						btnDL.setBounds(50, 200, 200, 50);
+						btnDL.setBounds(50, 190, 200, 50);
 					    btnDL.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-								if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
+								if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.BROWSE)){
 									for (int i=0 ; i<liste_sons.size() ; i++)  {
 									open(liste_sons.get(i));
 									}
@@ -348,7 +343,33 @@ static int choix=0;
 							}
 					         });
 					    fenetre.getContentPane().add(btnDL);
-					fenetre.setVisible(true);
+					
+					
+					// BOUTON OUVRIR LISTE ERREUR
+					JButton btnErreur = new JButton("Ouvrir la liste des erreurs");
+					btnErreur.setBounds(50, 260, 200, 25);
+				    btnErreur.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
+							if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
+								open(fileErreur);
+							}
+						}
+				         });
+				    fenetre.getContentPane().add(btnErreur);
+				    
+				    // BOUTON retour a l'accueil
+				    JButton btnRetour = new JButton("Retour à l'accueil");
+				    btnRetour.setBounds(50, 300, 200, 25);
+				    btnRetour.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
+							choix = 2;
+						}
+				         });
+				    fenetre.getContentPane().add(btnRetour);
+				    
+				fenetre.setVisible(true);
 					
 					buff.close(); //Lecture fini donc on ferme le flux 
 				} 
@@ -363,7 +384,10 @@ static int choix=0;
 					System.out.println(e.getMessage()); 
 					System.exit(1); 
 			} 
-    
+		while (choix!=2){
+	    	System.out.println("choix pas égal a 2"); 
+	    }
+		}while(choix==2);
 
 	    	
 	    
