@@ -92,7 +92,7 @@ public void paintComponent(Graphics g){
 	    this.setBackground(Color.BLACK); 
 	    // LOGO HEADER
 	    try {
-	        Image img = ImageIO.read(new File("slider_logo.png"));
+	        Image img = ImageIO.read(new File("/Ressources/slider_logo.png"));
 	        g.drawImage(img, 43, 0, this);
 	      } catch (IOException e) {
 	        e.printStackTrace();
