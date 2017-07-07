@@ -71,7 +71,7 @@ public class Accueil extends JPanel {
 	
 	public void paintComponent(Graphics g){
 		
-		File filePath = new File(getClass().getResource("/path.txt").toString());
+		File filePath = new File("path.txt");
 		File fileSons = new File(getFirstLine(filePath));
 		
 		// COULEUR DE FOND
@@ -85,7 +85,7 @@ public class Accueil extends JPanel {
 	    g.drawString(strFooter, (300 - metricsFooter.stringWidth(strFooter))/2, 370);   
 	    // LOGO HEADER
 	    try {
-	        Image img = ImageIO.read((getClass().getResource("/slider_logo.png")));
+	        Image img = ImageIO.read(new File("slider_logo.png"));
 	        g.drawImage(img, 43, 0, this);
 	      } catch (IOException e) {
 	        e.printStackTrace();

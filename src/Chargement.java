@@ -82,17 +82,17 @@ public class Chargement extends JPanel {
 	
 	
 public void paintComponent(Graphics g){
-	File filePath = new File(getClass().getResource("/path.txt").toString());
+	File filePath = new File("path.txt");
 	File fileSons = new File(getFirstLine(filePath));
 	
 		// GIF 
-		Image icon = new ImageIcon(getClass().getResource("/chargement.gif")).getImage();
+		Image icon = new ImageIcon("chargement.gif").getImage();
 		g.drawImage(icon, 0, 0, this);
 		// COULEUR DE FOND
 	    this.setBackground(Color.BLACK); 
 	    // LOGO HEADER
 	    try {
-	        Image img = ImageIO.read(getClass().getResource("/slider_logo.png"));
+	        Image img = ImageIO.read(new File("slider_logo.png"));
 	        g.drawImage(img, 43, 0, this);
 	      } catch (IOException e) {
 	        e.printStackTrace();
