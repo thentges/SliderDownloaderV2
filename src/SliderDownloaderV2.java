@@ -170,7 +170,7 @@ static int choix=0;
 		do{
 		//INITIALISATION
 		
-		File filePath = new File("./path.txt");
+		File filePath = new File("path.txt");
 		File fileErreur = new File("liste_erreur.txt");
 		
 		//FENETRE
