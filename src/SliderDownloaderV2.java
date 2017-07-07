@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /*       						TODO
- *  REGLER SOUCIS CHEEDRA setBackground(Color.BLACK); fonctionne AP
+ *  REGLER SOUCIS DOUBLES FENETRES (CHEEDRA)
  * 								TODO	
  */ 
 
