@@ -34,7 +34,7 @@ public void paintComponent(Graphics g){
 	    g.drawString(strFooter, (300 - metricsFooter.stringWidth(strFooter))/2, 370);   
 	    // LOGO HEADER
 	    try {
-	        Image img = ImageIO.read(new File("/Ressources/slider_logo.png"));
+	        Image img = ImageIO.read(new File("slider_logo.png"));
 	        g.drawImage(img, 43, 0, this);
 	      } catch (IOException e) {
 	        e.printStackTrace();
