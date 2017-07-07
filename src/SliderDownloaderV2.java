@@ -31,12 +31,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /*       						TODO
  *  REGLER SOUCIS CHEEDRA setBackground(Color.BLACK); fonctionne AP
  *  CAS PATH existe ap
- * PAGE FIN : 
- * - afficher le nombre de fails
- * - bouton tout télécharger (if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
-										for ...
-										open liste_sons.get(i)
-									}
+ * PAGE FIN : 									
  * - bouton ouvrir la liste d'erreur
  * - bouton revenir a l'accueil ?
  * 								TODO	
@@ -226,7 +221,7 @@ static int choix=0;
 	    fenetre.getContentPane().add(btnSelect);
 	    
 	    // BOUTON LANCER LE PROGRAMME
-	    JButton btnLaunch = new JButton("Lancer le programme");
+	    JButton btnLaunch = new JButton("Analyser les morceaux");
 	    btnLaunch.setBounds(50, 230, 200, 70);
 	    fenetre.getContentPane().add(btnLaunch);
 	    fenetre.setVisible(true);
@@ -338,7 +333,21 @@ static int choix=0;
 					end.setCompteurLignes(compteurLignes);
 					end.setCompteurErreur(compteurErreur);
 					fenetre.setContentPane(end); //afficher l'écran de chargement
-					// ADD BOUTONS
+					fenetre.getContentPane().setLayout(null);
+					// BOUTON TELECHARGER 
+					JButton btnDL = new JButton("Telecharger les morceaux");
+						btnDL.setBounds(50, 200, 200, 50);
+					    btnDL.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
+								if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
+									for (int i=0 ; i<liste_sons.size() ; i++)  {
+									open(liste_sons.get(i));
+									}
+								}
+							}
+					         });
+					    fenetre.getContentPane().add(btnDL);
 					fenetre.setVisible(true);
 					
 					buff.close(); //Lecture fini donc on ferme le flux 
