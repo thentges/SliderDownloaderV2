@@ -30,7 +30,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /*       						TODO
  *  REGLER SOUCIS CHEEDRA setBackground(Color.BLACK); fonctionne AP
- *  CAS PATH existe ap
  * 								TODO	
  */ 
 
@@ -130,6 +129,19 @@ public class SliderDownloaderV2 {
 		return lien;
 	}
 	
+	public static void FileChooser(File filePath){
+		JFileChooser selecteur = new JFileChooser();
+		FileNameExtensionFilter filtre = new FileNameExtensionFilter("Fichiers .txt", "txt");
+        selecteur.addChoosableFileFilter(filtre);
+        selecteur.setAcceptAllFileFilterUsed(false);
+        selecteur.setFileFilter(filtre);
+        selecteur.setDialogTitle("Choississez une liste de sons au format .txt");
+	    int retour=selecteur.showOpenDialog(null);
+	    if(retour==JFileChooser.APPROVE_OPTION){
+	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // sauvegarde le chemin
+	    }
+	}
+	
 	public static void open(File file){
 		try
 		{
@@ -159,22 +171,35 @@ public class SliderDownloaderV2 {
 		
 	}
 	
+	
+	
 	// ARRAYS pour execution du programme
 	
 	static ArrayList<String> liste_sons = new ArrayList<String>(); // liste des liens sliders
 	static ArrayList<String> liste_liens = new ArrayList<String>(); // liste pour trier et garder le meme lien
 	static ArrayList<String> liste_erreur = new ArrayList<String>(); // liste des erreurs
-static int choix=0;
+	static int choix=0;
+	
 	public static void main(String[] args) {
 		do{
 		//INITIALISATION
 		
 		File filePath = new File("Ressources/path.txt");
 		File fileErreur = new File("liste_erreur.txt");
-		
+		if (getFirstLine(filePath)!=null){
+			System.out.println("jesuisla");
+			File fileSons = new File(getFirstLine(filePath));
+			if (!fileSons.exists()){
+				FileChooser(filePath);
+			}
+		}
+		else{
+			FileChooser(filePath);
+		}
+
 		//FENETRE
 		JFrame fenetre = new JFrame(); 
-	    fenetre.setTitle("SliderDownloader"); 
+	    fenetre.setTitle("SliderDownloader");  
 	    fenetre.setSize(300, 400);
 	    fenetre.setLocationRelativeTo(null); // PLACE LA FENETRE AU CENTRE
 	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // stoppe le programme a la fermeture (croix rouge) 
@@ -202,16 +227,7 @@ static int choix=0;
 	    btnSelect.addActionListener(new ActionListener()  {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-				JFileChooser selecteur = new JFileChooser();
-				FileNameExtensionFilter filtre = new FileNameExtensionFilter("Fichiers .txt", "txt");
-                selecteur.addChoosableFileFilter(filtre);
-                selecteur.setAcceptAllFileFilterUsed(false);
-                selecteur.setFileFilter(filtre);
-                selecteur.setDialogTitle("Choississez une liste de sons au format .txt");
-			    int retour=selecteur.showOpenDialog(null);
-			    if(retour==JFileChooser.APPROVE_OPTION){
-			    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // sauvegarde le chemin
-			    }
+				FileChooser(filePath);
 			}
 	         });
 	    fenetre.getContentPane().add(btnSelect);
@@ -220,7 +236,6 @@ static int choix=0;
 	    JButton btnLaunch = new JButton("Analyser les morceaux");
 	    btnLaunch.setBounds(50, 230, 200, 70);
 	    fenetre.getContentPane().add(btnLaunch);
-	    fenetre.setVisible(true);
 	    btnLaunch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
@@ -229,13 +244,14 @@ static int choix=0;
 				System.out.println(choix);
 			}
 	         });
+	    fenetre.setVisible(true);
 	    
 	    while (choix!=1){
 	    	System.out.println("choix pas égal a 1"); 
 	    }
 	    Chargement chargement = new Chargement();
 	    fenetre.setContentPane(chargement); //afficher l'écran de chargement
-	    fenetre.setVisible(true);
+	    fenetre.validate();
 	 // PROGRAMME COMMENCE ICI
     	System.out.println("LE PROGRAMME COMMENCE"); // pour test
 		try{ 
@@ -369,7 +385,7 @@ static int choix=0;
 				         });
 				    fenetre.getContentPane().add(btnRetour);
 				    
-				fenetre.setVisible(true);
+				fenetre.validate();
 					
 					buff.close(); //Lecture fini donc on ferme le flux 
 				} 
