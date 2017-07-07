@@ -181,7 +181,7 @@ public class SliderDownloaderV2 {
 	static int choix=0;
 	
 	public static void main(String[] args) {
-		do{
+		
 		//INITIALISATION
 		
 		File filePath = new File("Ressources/path.txt");
@@ -206,8 +206,7 @@ public class SliderDownloaderV2 {
 	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // stoppe le programme a la fermeture (croix rouge) 
 	    fenetre.setResizable(false);
 	    Accueil accueil = new Accueil();
-	    fenetre.setContentPane(accueil); //afficher l'accueil
-	    fenetre.getContentPane().setLayout(null);
+	    
 	    
 	    //BOUTON OUVRIR LE FICHIER
 	    JButton btnOpen = new JButton("Ouvrir le fichier");
@@ -220,7 +219,7 @@ public class SliderDownloaderV2 {
 				}
 			}
 	         });
-	    fenetre.getContentPane().add(btnOpen);
+	    
 	    
 	    //BOUTON SELECTIONNER UN FICHIER
 	    JButton btnSelect = new JButton("Selectionner un autre fichier");
@@ -231,12 +230,11 @@ public class SliderDownloaderV2 {
 				FileChooser(filePath);
 			}
 	         });
-	    fenetre.getContentPane().add(btnSelect);
+	    
 	    
 	    // BOUTON LANCER LE PROGRAMME
 	    JButton btnLaunch = new JButton("Analyser les morceaux");
-	    btnLaunch.setBounds(50, 230, 200, 70);
-	    fenetre.getContentPane().add(btnLaunch);
+	    btnLaunch.setBounds(50, 230, 200, 70); 
 	    btnLaunch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
@@ -245,6 +243,12 @@ public class SliderDownloaderV2 {
 				System.out.println(choix);
 			}
 	         });
+	    do{
+	    fenetre.setContentPane(accueil); //afficher l'accueil
+		fenetre.getContentPane().setLayout(null);
+	    fenetre.getContentPane().add(btnOpen);
+	    fenetre.getContentPane().add(btnSelect);
+	    fenetre.getContentPane().add(btnLaunch);
 	    fenetre.setVisible(true);
 	    
 	    while (choix!=1){
