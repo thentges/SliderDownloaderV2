@@ -294,14 +294,14 @@ public class SliderDownloaderV2 {
 	    fenetre.getContentPane().add(btnLaunch);
 	    fenetre.setVisible(true);
 	    
-	    while (choix!=1){
+	    while (choix!=1){ // tant que le le bouton lancer le programme n'a pas été pressé
 	    	System.out.println("choix pas égal a 1"); 
-	    }
-	    Chargement chargement = new Chargement();
-	    fenetre.setContentPane(chargement); //afficher l'écran de chargement
+	    } // sort quand le bouton a été pressé
+	    Chargement chargement = new Chargement(); // création écran de chargement
+	    fenetre.setContentPane(chargement); // afficher l'écran de chargement
 	    fenetre.validate();
 	    
-	 // PROGRAMME COMMENCE ICI
+	    // PROGRAMME COMMENCE ICI
     	System.out.println("LE PROGRAMME COMMENCE"); // pour test
 		try{ 
 
