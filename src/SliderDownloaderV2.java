@@ -20,6 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 /*       						TODO
+ * 
  * 	Choisir et mettres images pour les JOPTION Panel de savePath 
  *  REGLER SOUCIS DOUBLES FENETRES (CHEEDRA) -- possiblement fix, en attente retour chidra
  *  MAJ ReadMe -- BUT + Comment l'utiliser (archive ...) + comment il fonctionne?
@@ -79,25 +80,40 @@ public class SliderDownloaderV2 {
 	    }
 	}
 	
-	public static void savePath(JFileChooser selecteur, Fichier filePath){ // sauvegarde le chemin du fichier séléctionné
+	private static void savePath(JFileChooser selecteur, Fichier filePath){ // sauvegarde le chemin du fichier séléctionné
 	    int retour=selecteur.showDialog(null, "Selectionner"); // lance boite de selection
 	    if(retour==JFileChooser.APPROVE_OPTION){ // si un fichier a été séléctionné
 	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // écrit son chemin dans filePath
+	    	filePath.majFirstLine();
 	    }
 	}
 	
-	public static void savePath(JFileChooser selecteur, Fichier filePath, JOptionPane jop){ // savePath avec obligation de choisir
+	private static void mustSavePath(JFileChooser selecteur, Fichier filePath){ // savePath avec obligation de choisir
 	    int retour=selecteur.showDialog(null, "Selectionner"); // affiche boite de selection
 	    if(retour==JFileChooser.APPROVE_OPTION){ // si un fichier a été sélectionné
 	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // écrit son chemin dans filePath
+	    	filePath.majFirstLine();
 	    }
 	    if (retour==JFileChooser.CANCEL_OPTION){ // si "Annuler"
-	    	jop.showMessageDialog(null, "Il est obligatoire de choisir un fichier .txt pour lancer le programme", "", JOptionPane.WARNING_MESSAGE);
-	    	savePath(selecteur, filePath, jop);
+	    	Object[] options = {"Selectionner un fichier", "Quitter le programme"};
+			int optionChoisie = JOptionPane.showOptionDialog(null,
+			"Il est obligatoire de choisir un fichier .txt pour lancer le programme",
+			"",
+			JOptionPane.YES_NO_OPTION,
+			JOptionPane.QUESTION_MESSAGE,
+			null,     //champ a remplacer pour image
+			options,  //titres des boutons
+			options[0]); //titre du bouton par defaut
+			if (optionChoisie==0){ // si l'utilisateur a cliqué sur selectionner un fichier
+				mustSavePath(selecteur, filePath);	
+			}
+	    	if (optionChoisie==1){ // s'il a cliqué sur quitter le programme
+	    		System.exit(0);
+	    	}
 	    }
 	}
 	
-	public static void open(Fichier file){
+	private static void open(Fichier file){
 		try
 		{
 			java.awt.Desktop.getDesktop().open(file.getFile());
@@ -108,7 +124,7 @@ public class SliderDownloaderV2 {
 		}
 	}
 	
-	public static void open(String url){
+	private static void open(String url){
 		URI uri;
 		try {
 			uri = new URI(url);
@@ -125,7 +141,6 @@ public class SliderDownloaderV2 {
 		}
 		
 	}
-	
 	
 	
 	static int choix=0; 
@@ -154,7 +169,7 @@ public class SliderDownloaderV2 {
 	    Fin end = new Fin(); // création écran de fin
 	    
 	    //	BOITE DE DIALOGUES
-	    JOptionPane mustChoose = new JOptionPane();
+	    //JOptionPane mustChoose = new JOptionPane();
 	    
 	    //	SELECTEUR DE .TXT
 	    JFileChooser selecteur = new JFileChooser();
@@ -164,6 +179,7 @@ public class SliderDownloaderV2 {
         selecteur.setAcceptAllFileFilterUsed(false);
         selecteur.setFileFilter(filtre);
         selecteur.setDialogTitle("Choississez une liste de sons au format .txt");
+        
 	    
 	    //	BOUTON OUVRIR LE FICHIER
 	    JButton btnOpen = new JButton("Ouvrir le fichier");
@@ -246,19 +262,19 @@ public class SliderDownloaderV2 {
 	    	});
 	    	if (filePath.getFirstLine()!=null){ // si un chemin est enregistré
 				System.out.println("path.txt contient un chemin");
-				Fichier fileSons = new Fichier(filePath.getFirstLine()); //crée un fichier à partir de ce chemin
+				File fileSons = new File(filePath.getFirstLine()); //crée un fichier à partir de ce chemin
 				System.out.println("fichier fileSons crée");
 				
 				if (!fileSons.exists()){ // si ce fichier n'existe pas
 					// ouvre boite de dialogue
-					mustChoose.showMessageDialog(null, "Vous devez choisir un fichier .txt pour lancer le programme", "", JOptionPane.INFORMATION_MESSAGE);
-					savePath(selecteur, filePath, mustChoose); // force l'utilisateur a choisir un fichier
+					JOptionPane.showMessageDialog(null, "Vous devez choisir un fichier .txt pour lancer le programme", "", JOptionPane.INFORMATION_MESSAGE);
+					mustSavePath(selecteur, filePath); // force l'utilisateur a choisir un fichier
 				}
 			}
 			else{ // si aucun chemin n'est enregistré
 				// ouvre boite de dialogue
-				mustChoose.showMessageDialog(null, "Vous devez choisir un fichier .txt pour lancer le programme", "", JOptionPane.INFORMATION_MESSAGE);
-				savePath(selecteur, filePath, mustChoose); // force l'utilisateur a choisir un fichier
+				JOptionPane.showMessageDialog(null, "Vous devez choisir un fichier .txt pour lancer le programme", "", JOptionPane.INFORMATION_MESSAGE);
+				mustSavePath(selecteur, filePath); // force l'utilisateur a choisir un fichier
 			}
 	    
 	    fenetre.setContentPane(accueil); //affiche l'accueil
@@ -268,6 +284,7 @@ public class SliderDownloaderV2 {
 	    fenetre.getContentPane().add(btnSelect);
 	    fenetre.getContentPane().add(btnLaunch);
 	    fenetre.setVisible(true);
+	    fenetre.validate();
 	    
 	    while (choix!=1){ // tant que le le bouton lancer le programme n'a pas été pressé
 	    	System.out.println("choix pas égal a 1"); 

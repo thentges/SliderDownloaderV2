@@ -66,6 +66,10 @@ public class Fichier {
 		return this.firstLine;
 	}
 	
+	public void majFirstLine(){
+		this.setFirstLine(this.file);
+	}
+	
 	public int getNbLignes(){
 		return this.nbLignes;
 	}
