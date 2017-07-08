@@ -20,7 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 /*       						TODO
- * 	Choisir et mettres images pour les JOPTION Panel savePath
+ * 	Choisir et mettres images pour les JOPTION Panel de savePath 
  *  REGLER SOUCIS DOUBLES FENETRES (CHEEDRA) -- possiblement fix, en attente retour chidra
  *  MAJ ReadMe -- BUT + Comment l'utiliser (archive ...) + comment il fonctionne?
  *  Description sur git
