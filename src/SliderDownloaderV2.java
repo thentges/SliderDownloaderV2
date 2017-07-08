@@ -21,16 +21,14 @@ import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 
 /*       						TODO
- * 	selecteur CAS path incorrect / inexistant : 
-	annuler >>> AFFICHE JOPTION PANE + relancer savePath 
+ * 	Choisir et mettres images pour les JOPTION Panel savePath
  *  REGLER SOUCIS DOUBLES FENETRES (CHEEDRA) -- possiblement fix, en attente retour chidra
  *  MAJ ReadMe -- BUT + Comment l'utiliser (archive ...) + comment il fonctionne?
  *  Description sur git
@@ -130,10 +128,21 @@ public class SliderDownloaderV2 {
 		    return -1;
 		}
 	
-	public static void savePath(JFileChooser selecteur, File filePath){
-	    int retour=selecteur.showOpenDialog(null);
-	    if(retour==JFileChooser.APPROVE_OPTION){
-	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // sauvegarde le chemin
+	public static void savePath(JFileChooser selecteur, File filePath){ // sauvegarde le chemin du fichier séléctionné
+	    int retour=selecteur.showDialog(null, "Selectionner"); // lance boite de selection
+	    if(retour==JFileChooser.APPROVE_OPTION){ // si un fichier a été séléctionné
+	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // écrit son chemin dans filePath
+	    }
+	}
+	
+	public static void savePath(JFileChooser selecteur, File filePath, JOptionPane jop){ // savePath avec obligation de choisir
+	    int retour=selecteur.showDialog(null, "Selectionner"); // affiche boite de selection
+	    if(retour==JFileChooser.APPROVE_OPTION){ // si un fichier a été sélectionné
+	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // écrit son chemin dans filePath
+	    }
+	    if (retour==JFileChooser.CANCEL_OPTION){ // si "Annuler"
+	    	jop.showMessageDialog(null, "Il est obligatoire de choisir un fichier .txt pour lancer le programme", "", JOptionPane.WARNING_MESSAGE);
+	    	savePath(selecteur, filePath, jop);
 	    }
 	}
 	
@@ -193,9 +202,13 @@ public class SliderDownloaderV2 {
 	    fenetre.setResizable(false);
 	    Accueil accueil = new Accueil();
 	    
+	    // boite de dialogue
+	    JOptionPane mustChoose = new JOptionPane();
+	    
 	    // SELECTEUR DE .TXT
 	    JFileChooser selecteur = new JFileChooser();
 		FileNameExtensionFilter filtre = new FileNameExtensionFilter("Fichiers .txt", "txt");
+		selecteur.setMultiSelectionEnabled(false);
         selecteur.addChoosableFileFilter(filtre);
         selecteur.setAcceptAllFileFilterUsed(false);
         selecteur.setFileFilter(filtre);
@@ -277,16 +290,23 @@ public class SliderDownloaderV2 {
 		    
 		    
 	    do{
-	    	if (getFirstLine(filePath)!=null){
-				System.out.println("jesuisla");
-				File fileSons = new File(getFirstLine(filePath));
-				if (!fileSons.exists()){
-					savePath(selecteur, filePath);
+	    	if (getFirstLine(filePath)!=null){ // si un chemin est enregistré
+				System.out.println("path.txt contient un chemin");
+				File fileSons = new File(getFirstLine(filePath)); //crée un fichier à partir de ce chemin
+				System.out.println("fichier fileSons crée");
+				
+				if (!fileSons.exists()){ // si ce fichier n'existe pas
+					// ouvre boite de dialogue
+					mustChoose.showMessageDialog(null, "Vous devez choisir un fichier .txt pour lancer le programme", "", JOptionPane.INFORMATION_MESSAGE);
+					savePath(selecteur, filePath, mustChoose); // force l'utilisateur a choisir un fichier
 				}
 			}
-			else{
-				savePath(selecteur, filePath);
+			else{ // si aucun chemin n'est enregistré
+				// ouvre boite de dialogue
+				mustChoose.showMessageDialog(null, "Vous devez choisir un fichier .txt pour lancer le programme", "", JOptionPane.INFORMATION_MESSAGE);
+				savePath(selecteur, filePath, mustChoose); // force l'utilisateur a choisir un fichier
 			}
+	    
 	    fenetre.setContentPane(accueil); //affiche l'accueil
 		fenetre.getContentPane().setLayout(null);
 	    fenetre.getContentPane().add(btnOpen);
