@@ -14,65 +14,37 @@ import javax.swing.JPanel;
  
 public class Accueil extends JPanel {
 	
-	public String getFirstLine(File file){
-		String line="init";
-		try{ 
-			
-			BufferedReader buff = new BufferedReader(new FileReader(file.getAbsolutePath())); 
-			
-			try {  
-			line = buff.readLine();
-			buff.close(); //Lecture fini donc on ferme le flux 
-			} 
-
-			catch (IOException e){ 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-
-			} 
-			catch (IOException e) { 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-		
-		return line;
-		} 
-	
-	public  int getNbLignes(File file){ // RECUPERE NOMBRE LIGNES D'UN FICHIER
+	private  int getNbLignes(File file){ // RECUPERE NOMBRE LIGNES D'UN FICHIER
 		int compteur=0;
 		try{ 
 
 			BufferedReader buff = new BufferedReader(new FileReader(file.getAbsolutePath())); 
 
 			try { 
-			String line; 
-			// Lire le fichier ligne par ligne 
-			// La boucle se termine quand la méthode affiche "null" 
-			while ((line = buff.readLine()) != null) {
-				compteur=compteur+1;
-			}
-			
-			buff.close(); //Lecture fini donc on ferme le flux 
+				String line; 
+				// Lire le fichier ligne par ligne 
+				// La boucle se termine quand la méthode affiche "null" 
+				while ((line = buff.readLine()) != null) {
+					compteur=compteur+1;
+				}
+				buff.close(); //Lecture fini donc on ferme le flux 
 			} 
-
 			catch (IOException e){ 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
+				System.out.println(e.getMessage()); 
+				System.exit(1); 
 			} 
-
-			} 
-			catch (IOException e) { 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-		return compteur;
 		} 
+		catch (IOException e) { 
+		System.out.println(e.getMessage()); 
+		System.exit(1); 
+		} 
+		return compteur;
+	} 
 	
 	public void paintComponent(Graphics g){
 		
 		File filePath = new File("Ressources/path.txt");
-		File fileSons = new File(getFirstLine(filePath));
+		File fileSons = new File(SliderDownloaderV2.getFirstLine(filePath));
 		
 		// COULEUR DE FOND
 	    this.setBackground(Color.BLACK); 
@@ -87,9 +59,10 @@ public class Accueil extends JPanel {
 	    try {
 	        Image img = ImageIO.read(new File("Ressources/slider_logo.png"));
 	        g.drawImage(img, 43, 0, this);
-	      } catch (IOException e) {
+	    } 
+	    catch (IOException e) {
 	        e.printStackTrace();
-	      }
+	    }
 	    //RECAP FICHIER 
 	    String name = fileSons.getName();
 	    int nbLignes = getNbLignes(fileSons);

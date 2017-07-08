@@ -37,7 +37,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SliderDownloaderV2 {
 	
-	public static void ecrire(File fichier, ArrayList<String> array, String separateur){ // ECRITURE de array dans fichier
+	private static void ecrire(File fichier, ArrayList<String> array, String separateur){ // ECRITURE de array dans fichier
 		try {
 			fichier.createNewFile(); // crée le fichier s'il n'existe pas
             final FileWriter writer = new FileWriter(fichier.getAbsolutePath()); // création d'un writer
@@ -56,7 +56,7 @@ public class SliderDownloaderV2 {
         }
 	}	
 	
-	public static void ecrire(File fichier, String str){ // ECRITURE d'un string dans fichier
+	private static void ecrire(File fichier, String str){ // ECRITURE d'un string dans fichier
 		try {
 			fichier.createNewFile(); // crée le fichier s'il n'existe pas
             final FileWriter writer = new FileWriter(fichier.getAbsolutePath()); // création d'un writer
@@ -97,7 +97,7 @@ public class SliderDownloaderV2 {
 		return line;
 		} 
 	
-	public static void playSound(String morceau){ // joue un son (string=path du fichier)
+	private static void playSound(String morceau){ // joue un son (string=path du fichier)
 		try {
 		 	File son = new File(morceau);
 	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(son);
@@ -108,22 +108,6 @@ public class SliderDownloaderV2 {
 	        ex.printStackTrace();
 	    }
 	}
-	
-	public static int getFileSize(String path){ // recupère le poids d'un fichier depuis son URL web
-		try {
-		        URL url=new URL(path);
-		        URLConnection urlConnection=url.openConnection();
-		        urlConnection.connect();
-		        int file_size=urlConnection.getContentLength();
-		        return  file_size;
-
-		    } catch (MalformedURLException e) {
-
-		    }catch (IOException e){
-
-		    }
-		    return -1;
-		}
 	
 	public static void savePath(JFileChooser selecteur, File filePath){ // sauvegarde le chemin du fichier séléctionné
 	    int retour=selecteur.showDialog(null, "Selectionner"); // lance boite de selection
