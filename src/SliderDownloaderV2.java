@@ -188,14 +188,9 @@ public class SliderDownloaderV2 {
 		
 
 		//FENETRE
-		JFrame fenetre = new JFrame(); 
-	    fenetre.setTitle("SliderDownloader"); 
-	    fenetre.setBackground(Color.BLACK);
-	    fenetre.setSize(300, 400);
-	    fenetre.setLocationRelativeTo(null); // PLACE LA FENETRE AU CENTRE
-	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // stoppe le programme a la fermeture (croix rouge) 
-	    fenetre.setResizable(false);
-	    Accueil accueil = new Accueil();
+		Window fenetre = new Window();  // faire w/ objet WINDOW
+		fenetre.setVisible(true);
+
 	    
 	    
 	    //BOUTON OUVRIR LE FICHIER
@@ -233,23 +228,24 @@ public class SliderDownloaderV2 {
 				System.out.println(choix);
 			}
 	         });
+	    
+	 
 	    do{
-	    	if (getFirstLine(filePath)!=null){
-				System.out.println("jesuisla");
-				File fileSons = new File(getFirstLine(filePath));
-				if (!fileSons.exists()){
-					FileChooser(filePath);
+	    	if (getFirstLine(filePath)!=null){ // si path contient une ligne
+				File fileSons = new File(getFirstLine(filePath)); // créer un fichier utilisant cette ligne comme chemin
+				if (!fileSons.exists()){ // si le fichier n'existe pas
+					FileChooser(filePath); // ouvrir fenêtre selection de chemin à sauvegarder
 				}
-			}
+			} // si path ne contient aucune ligne
 			else{
-				FileChooser(filePath);
+				FileChooser(filePath); // ouvrir fenêtre de selection de chemin à sauvegarder
 			}
-	    fenetre.setContentPane(accueil); //afficher l'accueil
+	    
 		fenetre.getContentPane().setLayout(null);
 	    fenetre.getContentPane().add(btnOpen);
 	    fenetre.getContentPane().add(btnSelect);
 	    fenetre.getContentPane().add(btnLaunch);
-	    fenetre.setVisible(true);
+	    
 	    
 	    while (choix!=1){
 	    	System.out.println("choix pas égal a 1"); 
