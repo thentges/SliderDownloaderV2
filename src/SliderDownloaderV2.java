@@ -234,6 +234,45 @@ public class SliderDownloaderV2 {
 				System.out.println(choix);
 			}
 	         });
+	    
+	 // BOUTON OUVRIR LISTE ERREUR
+		JButton btnErreur = new JButton("Ouvrir la liste des erreurs");
+		btnErreur.setBounds(50, 260, 200, 25);
+	    btnErreur.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
+				if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
+					open(fileErreur);
+				}
+			}
+	         });
+	    
+	    
+	    // BOUTON retour a l'accueil
+	    JButton btnRetour = new JButton("Retour à l'accueil");
+	    btnRetour.setBounds(50, 300, 200, 25);
+	    btnRetour.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
+				choix = 2;
+			}
+	         });
+	    
+	 // BOUTON TELECHARGER 
+		JButton btnDL = new JButton("Telecharger les morceaux");
+			btnDL.setBounds(50, 190, 200, 50);
+		    btnDL.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
+					if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.BROWSE)){
+						for (int i=0 ; i<liste_liens.size() ; i++)  {
+						open(liste_liens.get(i));
+						}
+					}
+				}
+		         });
+		    
+		    
 	    do{
 	    	if (getFirstLine(filePath)!=null){
 				System.out.println("jesuisla");
@@ -245,7 +284,7 @@ public class SliderDownloaderV2 {
 			else{
 				FileChooser(filePath);
 			}
-	    fenetre.setContentPane(accueil); //afficher l'accueil
+	    fenetre.setContentPane(accueil); //affiche l'accueil
 		fenetre.getContentPane().setLayout(null);
 	    fenetre.getContentPane().add(btnOpen);
 	    fenetre.getContentPane().add(btnSelect);
@@ -271,72 +310,38 @@ public class SliderDownloaderV2 {
 				int compteurErreur=0;
 				ArrayList<Morceau> liste_morceaux = new ArrayList<Morceau>();
 
-				while ( (line = buff.readLine()) != null){
-				  liste_morceaux.add(new Morceau(line));
-				  chargement.setCompteurLignes(compteurLignes);
+				while ( (line = buff.readLine()) != null){	// tant que la ligne lue n'est pas nulle
+				  liste_morceaux.add(new Morceau(line)); // crée un nouvel objet Morceau
+				  chargement.setCompteurLignes(compteurLignes); 
 				  chargement.setNom(line);
 				  chargement.repaint();
-				  liste_morceaux.get(compteurLignes).setSource();
-				  liste_morceaux.get(compteurLignes).parse();
-				   // RENAME liste_sons en liste_liens et suppr liste_liens
+				  liste_morceaux.get(compteurLignes).setSource(); // recupere code source de la page après execution du JS
+				  liste_morceaux.get(compteurLignes).parse(); // parse le code source pour en extraire le lien de dl
 				  if (liste_morceaux.get(compteurLignes).getSuccess()) { // si le programme a trouvé un lien
-				    // ajoute le lien à la liste de sons
-				    liste_liens.add(liste_morceaux.get(compteurLignes).getLink()); 
-				    compteurLignes = compteurLignes + 1;
+				    liste_liens.add(liste_morceaux.get(compteurLignes).getLink()); // ajoute le lien a la liste de liens
+				    compteurLignes = compteurLignes + 1; //MAJ le compteur
 				  }
 				  else { // si le programme n'a pas trouvé de lien
-				    compteurErreur = compteurErreur + 1;
+				    compteurErreur = compteurErreur + 1; //MAJ les compteurs
 				    compteurLignes = compteurLignes + 1;
-				    liste_erreur.add(line);
+				    liste_erreur.add(line); // ajoute le nom du morceau à la liste des erreurs
 				    
 				  }
 				}
-					ecrire(fileErreur, liste_erreur, "\n");		// rempli liste erreur				
-					playSound("Ressources/ah_denis.wav");
-					ecrire(new File(getFirstLine(filePath)) , ""); // vide la liste des sons
-					Fin end = new Fin();
+					ecrire(fileErreur, liste_erreur, "\n"); // ecrit la liste des erreurs dans le fichier liste_erreur			
+					playSound("Ressources/ah_denis.wav"); // joue un son
+					ecrire(new File(getFirstLine(filePath)) , ""); // vide la liste des de l'utilisateur
+					Fin end = new Fin(); 
 					end.setCompteurLignes(compteurLignes);
 					end.setCompteurErreur(compteurErreur);
-					fenetre.setContentPane(end); //afficher l'écran de chargement
+					fenetre.setContentPane(end); //affiche l'écran de fin
 					fenetre.getContentPane().setLayout(null);
-					// BOUTON TELECHARGER 
-					JButton btnDL = new JButton("Telecharger les morceaux");
-						btnDL.setBounds(50, 190, 200, 50);
-					    btnDL.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-								if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.BROWSE)){
-									for (int i=0 ; i<liste_liens.size() ; i++)  {
-									open(liste_liens.get(i));
-									}
-								}
-							}
-					         });
+					
+					
 					    fenetre.getContentPane().add(btnDL);
 					
 					
-					// BOUTON OUVRIR LISTE ERREUR
-					JButton btnErreur = new JButton("Ouvrir la liste des erreurs");
-					btnErreur.setBounds(50, 260, 200, 25);
-				    btnErreur.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-							if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
-								open(fileErreur);
-							}
-						}
-				         });
-				    fenetre.getContentPane().add(btnErreur);
-				    
-				    // BOUTON retour a l'accueil
-				    JButton btnRetour = new JButton("Retour à l'accueil");
-				    btnRetour.setBounds(50, 300, 200, 25);
-				    btnRetour.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-							choix = 2;
-						}
-				         });
+					 fenetre.getContentPane().add(btnErreur);
 				    fenetre.getContentPane().add(btnRetour);
 				    
 				fenetre.validate();
