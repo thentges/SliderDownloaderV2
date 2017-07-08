@@ -107,7 +107,7 @@ public class SliderDownloaderV2 {
 			if (optionChoisie==0){ // si l'utilisateur a cliqué sur selectionner un fichier
 				mustSavePath(selecteur, filePath);	
 			}
-	    	if (optionChoisie==1){ // s'il a cliqué sur quitter le programme
+	    	if (optionChoisie==1  || optionChoisie==-1){ // s'il a cliqué sur quitter le programme
 	    		System.exit(0);
 	    	}
 	    }
