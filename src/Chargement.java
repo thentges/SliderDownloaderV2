@@ -25,7 +25,7 @@ public class Chargement extends JPanel {
 		this.compteurLignes=nb;
 	}
 
-	public int getNbLignes(File file){ // RECUPERE NOMBRE LIGNES D'UN FICHIER
+	private int getNbLignes(File file){ // RECUPERE NOMBRE LIGNES D'UN FICHIER
 		int compteur=0;
 		try{ 
 
@@ -55,35 +55,9 @@ public class Chargement extends JPanel {
 		return compteur;
 		} 
 	
-	public String getFirstLine(File file){
-		String line="init";
-		try{ 
-			
-			BufferedReader buff = new BufferedReader(new FileReader(file.getAbsolutePath())); 
-			
-			try {  
-			line = buff.readLine();
-			buff.close(); //Lecture fini donc on ferme le flux 
-			} 
-
-			catch (IOException e){ 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-
-			} 
-			catch (IOException e) { 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-		
-		return line;
-		} 
-	
-	
 public void paintComponent(Graphics g){
 	File filePath = new File("Ressources/path.txt");
-	File fileSons = new File(getFirstLine(filePath));
+	File fileSons = new File(SliderDownloaderV2.getFirstLine(filePath));
 	
 		// GIF 
 		Image icon = new ImageIcon("Ressources/chargement.gif").getImage();
@@ -121,9 +95,6 @@ public void paintComponent(Graphics g){
 		    if (compteurLignes*division <= 200){
 		    	g.fillRect(50, 151, compteurLignes*division, 18);
 		    }
-	    }
-	    repaint();
-	      
-
+	    } 
 	}               
 }

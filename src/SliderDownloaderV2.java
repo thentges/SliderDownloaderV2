@@ -206,7 +206,8 @@ public class SliderDownloaderV2 {
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
 				if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
 					open(new File(getFirstLine(filePath)));
-				}
+				} 
+				
 			}
 	         });
 	    
@@ -257,6 +258,7 @@ public class SliderDownloaderV2 {
 	    Chargement chargement = new Chargement();
 	    fenetre.setContentPane(chargement); //afficher l'écran de chargement
 	    fenetre.validate();
+	    
 	 // PROGRAMME COMMENCE ICI
     	System.out.println("LE PROGRAMME COMMENCE"); // pour test
 		try{ 
@@ -272,7 +274,8 @@ public class SliderDownloaderV2 {
 				while ( (line = buff.readLine()) != null){
 				  liste_morceaux.add(new Morceau(line));
 				  chargement.setCompteurLignes(compteurLignes);
-				  chargement.setNom(line); 
+				  chargement.setNom(line);
+				  chargement.repaint();
 				  liste_morceaux.get(compteurLignes).setSource();
 				  liste_morceaux.get(compteurLignes).parse();
 				   // RENAME liste_sons en liste_liens et suppr liste_liens
