@@ -128,12 +128,6 @@ public class SliderDownloaderV2 {
 		    return -1;
 		}
 	
-	public static String sliderify(String line){
-		line=line.replace(" ", "+");
-		String lien="http://slider.kz/?page=1&act=source1&q=" + line;
-		return lien;
-	}
-	
 	public static void FileChooser(File filePath){
 		JFileChooser selecteur = new JFileChooser();
 		FileNameExtensionFilter filtre = new FileNameExtensionFilter("Fichiers .txt", "txt");
@@ -180,9 +174,9 @@ public class SliderDownloaderV2 {
 	
 	// ARRAYS pour execution du programme
 	
-	static ArrayList<String> liste_sons = new ArrayList<String>(); // liste des liens sliders
-	static ArrayList<String> liste_liens = new ArrayList<String>(); // liste pour trier et garder le meme lien
+	static ArrayList<String> liste_liens = new ArrayList<String>(); // liste des liens sliders
 	static ArrayList<String> liste_erreur = new ArrayList<String>(); // liste des erreurs
+	
 	static int choix=0;
 	
 	public static void main(String[] args) {
@@ -270,84 +264,30 @@ public class SliderDownloaderV2 {
 			BufferedReader buff = new BufferedReader(new FileReader(getFirstLine(filePath))); 
 
 			try { 
-				String nom; 
-				int debut;
-				int fin;
+				String line;
 				int compteurLignes=0;
 				int compteurErreur=0;
-					// Lire le fichier ligne par ligne 
-					// La boucle se termine quand la méthode affiche "null" 
-					while ((nom = buff.readLine()) != null) {	
-						chargement.setNom(nom);
-						String end = nom.substring(nom.length()-4) +".mp3";
-						String lien = sliderify(nom);
-						// se connecte a slider et attends l'execution du JS.
-						java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
-						WebClient webClient = new WebClient(BrowserVersion.CHROME);   
-						webClient.getOptions().setJavaScriptEnabled(true);
-						webClient.getOptions().setThrowExceptionOnScriptError(false);
-						webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);					
-						HtmlPage page = webClient.getPage(lien);
-						webClient.waitForBackgroundJavaScriptStartingBefore(1000); 
-						String pageAsXml = page.asXml(); // recupere le code source
-						// parsing des différents liens dispo
-						debut = pageAsXml.indexOf("playlist_gen"); 
-						pageAsXml = pageAsXml.substring(debut);
-						fin = pageAsXml.indexOf("</div>");
-						pageAsXml = pageAsXml.substring(0, fin);
-						//parsing du premier lien
-						debut = pageAsXml.indexOf("/download/");
-						fin = pageAsXml.indexOf(".mp3");
-						fin = fin + 4;
-						if (debut !=-1 && fin !=3){ 
-							String first = pageAsXml.substring(debut, fin);
-							first="http://slider.kz" + first;
-							liste_liens.add(first);
-							int compteur=0;
-							// parsing des autres liens
-							while (debut!=-1 && fin!=-1){
-								compteur=compteur+1;
-								if (compteur==8){ // 8 liens max traités
-									break;
-								} 
-								debut = pageAsXml.indexOf("/download/" , debut+10);
-								fin = pageAsXml.indexOf(".mp3" , fin);
-								fin = fin + 4;
-								if (debut != -1 && fin !=3){
-									String second = pageAsXml.substring(debut, fin);
-									second = "http://slider.kz" + second;
-									liste_liens.add(second);
-								}
-							}
-							int comparateur = 0;
-							int index = -1;
-							for (int i=0 ; i<liste_liens.size() ; i++)  {
-								int size = getFileSize(liste_liens.get(i));
-								if (comparateur < size && liste_liens.get(i).endsWith(end)) { 
-									comparateur = size;
-									index = i ;
-								}
-								if (index==-1 && comparateur < size){ // si aucun fichier ne possède la bonne fin de nom prendre le plus gros de tous
-									comparateur=size;
-									index = i;
-								}
-							}
-							String link = liste_liens.get(index); // recupere le plus grand lien
-							link = link.replace(" ", "%20"); // vire les espace dans le lien
-							liste_sons.add(link);
-							liste_liens.clear();
-							compteurLignes=compteurLignes+1;
-							chargement.setCompteurLignes(compteurLignes);
-						}
-						else { 
-							compteurErreur=compteurErreur+1;
-							compteurLignes=compteurLignes+1;
-							chargement.setCompteurLignes(compteurLignes);
-							liste_erreur.add(nom);
-	        
-						}
-						webClient.close();
-					} 
+				ArrayList<Morceau> liste_morceaux = new ArrayList<Morceau>();
+
+				while ( (line = buff.readLine()) != null){
+				  liste_morceaux.add(new Morceau(line));
+				  chargement.setCompteurLignes(compteurLignes);
+				  chargement.setNom(line); 
+				  liste_morceaux.get(compteurLignes).setSource();
+				  liste_morceaux.get(compteurLignes).parse();
+				   // RENAME liste_sons en liste_liens et suppr liste_liens
+				  if (liste_morceaux.get(compteurLignes).getSuccess()) { // si le programme a trouvé un lien
+				    // ajoute le lien à la liste de sons
+				    liste_liens.add(liste_morceaux.get(compteurLignes).getLink()); 
+				    compteurLignes = compteurLignes + 1;
+				  }
+				  else { // si le programme n'a pas trouvé de lien
+				    compteurErreur = compteurErreur + 1;
+				    compteurLignes = compteurLignes + 1;
+				    liste_erreur.add(line);
+				    
+				  }
+				}
 					ecrire(fileErreur, liste_erreur, "\n");		// rempli liste erreur				
 					playSound("Ressources/ah_denis.wav");
 					ecrire(new File(getFirstLine(filePath)) , ""); // vide la liste des sons
@@ -363,8 +303,8 @@ public class SliderDownloaderV2 {
 							@Override
 							public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
 								if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.BROWSE)){
-									for (int i=0 ; i<liste_sons.size() ; i++)  {
-									open(liste_sons.get(i));
+									for (int i=0 ; i<liste_liens.size() ; i++)  {
+									open(liste_liens.get(i));
 									}
 								}
 							}

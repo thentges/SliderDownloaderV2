@@ -19,6 +19,7 @@ public class Morceau {
 	private ArrayList<String> liste_liens = new ArrayList<String>();
 	private Boolean success; // true si ça a fonctionné false si ça a fail
 	
+	//	METHODES INTERNES
 	private String sliderify(String line){
 		line=line.replace(" ", "+");
 		String lien="http://slider.kz/?page=1&act=source1&q=" + line;
@@ -60,12 +61,14 @@ public class Morceau {
 		return link;
 	}
 	
-	//CONSTRUCTEUR
+	//	CONSTRUCTEUR
 	Morceau(String line){
 		this.nom = line;
 		this.URL = sliderify(line);
 		this.endName = nom.substring(nom.length()-4) +".mp3";
 	}
+	
+	//	METHODES EXTERNES
 	
 	public void setSource(){
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
@@ -124,5 +127,11 @@ public class Morceau {
 		}
 	}
 	
+	public Boolean getSuccess(){
+		return this.success;
+	}
 
+	public String getLink(){
+		return this.link;
+	}
 }
