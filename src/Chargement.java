@@ -3,15 +3,10 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Chargement extends JPanel {
@@ -25,39 +20,9 @@ public class Chargement extends JPanel {
 		this.compteurLignes=nb;
 	}
 
-	private int getNbLignes(File file){ // RECUPERE NOMBRE LIGNES D'UN FICHIER
-		int compteur=0;
-		try{ 
-
-			BufferedReader buff = new BufferedReader(new FileReader(file.getAbsolutePath())); 
-
-			try { 
-			String line; 
-			// Lire le fichier ligne par ligne 
-			// La boucle se termine quand la méthode affiche "null" 
-			while ((line = buff.readLine()) != null) {
-				compteur=compteur+1;
-			}
-			
-			buff.close(); //Lecture fini donc on ferme le flux 
-			} 
-
-			catch (IOException e){ 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-
-			} 
-			catch (IOException e) { 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-		return compteur;
-		} 
-	
 public void paintComponent(Graphics g){
-	File filePath = new File("Ressources/path.txt");
-	File fileSons = new File(SliderDownloaderV2.getFirstLine(filePath));
+	Fichier filePath = new Fichier("Ressources/path.txt");
+	Fichier fileSons = new Fichier(filePath.getFirstLine());
 	
 		// GIF 
 		Image icon = new ImageIcon("Ressources/chargement.gif").getImage();
@@ -81,7 +46,7 @@ public void paintComponent(Graphics g){
 	    g.drawString(strEnCours, (300 - metricsEnCours.stringWidth(strEnCours))/2, 120); 
 	    }
 	    // COMPTEUR
-	    int nbLignes = getNbLignes(fileSons);
+	    int nbLignes = fileSons.getNbLignes();
 	    Font fontRecap = new Font("Arial", Font.ITALIC, 12);
 	    FontMetrics metricsRecap = g.getFontMetrics(fontRecap);
 	    g.setFont(fontRecap);

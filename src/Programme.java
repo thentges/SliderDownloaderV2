@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,12 +6,12 @@ import java.util.ArrayList;
 public class Programme {
 	private ArrayList<String> liste_liens = new ArrayList<String>(); // liste des liens sliders
 	private ArrayList<String> liste_erreur = new ArrayList<String>(); // liste des erreurs
-	private File filePath;
+	private Fichier filePath;
 	private int compteurLignes=0;
 	private int compteurErreur=0;
 	private ArrayList<Morceau> liste_morceaux = new ArrayList<Morceau>();
 	
-	Programme(File filePath){
+	Programme(Fichier filePath){
 		this.filePath = filePath;
 	}
 	
@@ -34,7 +33,7 @@ public class Programme {
 	
 	public void execute(Chargement chargement){
 		try{ 
-			BufferedReader buff = new BufferedReader(new FileReader(SliderDownloaderV2.getFirstLine(filePath))); 
+			BufferedReader buff = new BufferedReader(new FileReader(filePath.getFirstLine())); 
 			try { 
 				String line;
 				while ( (line = buff.readLine()) != null){	// tant que la ligne lue n'est pas nulle

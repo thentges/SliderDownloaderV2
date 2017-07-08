@@ -2,16 +2,11 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -37,10 +32,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SliderDownloaderV2 {
 	
-	private static void ecrire(File fichier, ArrayList<String> array, String separateur){ // ECRITURE de array dans fichier
+	private static void ecrire(Fichier fichier, ArrayList<String> array, String separateur){ // ECRITURE de array dans fichier
 		try {
 			fichier.createNewFile(); // crée le fichier s'il n'existe pas
-            final FileWriter writer = new FileWriter(fichier.getAbsolutePath()); // création d'un writer
+            final FileWriter writer = new FileWriter(fichier.getFile().getAbsolutePath()); // création d'un writer
             try {        	
             	for (int i=0 ; i<array.size() ; i++)  {
             		writer.write(array.get(i));	
@@ -56,10 +51,10 @@ public class SliderDownloaderV2 {
         }
 	}	
 	
-	private static void ecrire(File fichier, String str){ // ECRITURE d'un string dans fichier
+	private static void ecrire(Fichier fichier, String str){ // ECRITURE d'un string dans fichier
 		try {
 			fichier.createNewFile(); // crée le fichier s'il n'existe pas
-            final FileWriter writer = new FileWriter(fichier.getAbsolutePath()); // création d'un writer
+            final FileWriter writer = new FileWriter(fichier.getFile().getAbsolutePath()); // création d'un writer
             try {        	
             		writer.write(str);	
             }
@@ -71,31 +66,6 @@ public class SliderDownloaderV2 {
             System.out.println("Impossible de creer le fichier");
         }
 	}	
-	
-	public static String getFirstLine(File file){
-		String line="init";
-		try{ 
-			
-			BufferedReader buff = new BufferedReader(new FileReader(file.getAbsolutePath())); 
-			
-			try {  
-			line = buff.readLine();
-			buff.close(); //Lecture fini donc on ferme le flux 
-			} 
-
-			catch (IOException e){ 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-
-			} 
-			catch (IOException e) { 
-			System.out.println(e.getMessage()); 
-			System.exit(1); 
-			} 
-		
-		return line;
-		} 
 	
 	private static void playSound(String morceau){ // joue un son (string=path du fichier)
 		try {
@@ -109,14 +79,14 @@ public class SliderDownloaderV2 {
 	    }
 	}
 	
-	public static void savePath(JFileChooser selecteur, File filePath){ // sauvegarde le chemin du fichier séléctionné
+	public static void savePath(JFileChooser selecteur, Fichier filePath){ // sauvegarde le chemin du fichier séléctionné
 	    int retour=selecteur.showDialog(null, "Selectionner"); // lance boite de selection
 	    if(retour==JFileChooser.APPROVE_OPTION){ // si un fichier a été séléctionné
 	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // écrit son chemin dans filePath
 	    }
 	}
 	
-	public static void savePath(JFileChooser selecteur, File filePath, JOptionPane jop){ // savePath avec obligation de choisir
+	public static void savePath(JFileChooser selecteur, Fichier filePath, JOptionPane jop){ // savePath avec obligation de choisir
 	    int retour=selecteur.showDialog(null, "Selectionner"); // affiche boite de selection
 	    if(retour==JFileChooser.APPROVE_OPTION){ // si un fichier a été sélectionné
 	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // écrit son chemin dans filePath
@@ -127,10 +97,10 @@ public class SliderDownloaderV2 {
 	    }
 	}
 	
-	public static void open(File file){
+	public static void open(Fichier file){
 		try
 		{
-			java.awt.Desktop.getDesktop().open(file);
+			java.awt.Desktop.getDesktop().open(file.getFile());
 		}
 		catch (IOException exc)
 		{
@@ -164,8 +134,8 @@ public class SliderDownloaderV2 {
 	
 	public static void main(String[] args) {
 		
-		File filePath = new File("Ressources/path.txt"); // fichier dans lequel le chemin de la liste de sons est enregistré
-		File fileErreur = new File("liste_erreur.txt"); // liste des erreurs
+		Fichier filePath = new Fichier("Ressources/path.txt"); // fichier dans lequel le chemin de la liste de sons est enregistré
+		Fichier fileErreur = new Fichier("liste_erreur.txt"); // liste des erreurs
 		
 // initialisation des vues
 		
@@ -202,7 +172,7 @@ public class SliderDownloaderV2 {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
 				if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)){
-					open(new File(getFirstLine(filePath)));
+					open(new Fichier(filePath.getFirstLine()));
 				} 	
 			}
 	    });
@@ -274,9 +244,9 @@ public class SliderDownloaderV2 {
 					}
 				}
 	    	});
-	    	if (getFirstLine(filePath)!=null){ // si un chemin est enregistré
+	    	if (filePath.getFirstLine()!=null){ // si un chemin est enregistré
 				System.out.println("path.txt contient un chemin");
-				File fileSons = new File(getFirstLine(filePath)); //crée un fichier à partir de ce chemin
+				Fichier fileSons = new Fichier(filePath.getFirstLine()); //crée un fichier à partir de ce chemin
 				System.out.println("fichier fileSons crée");
 				
 				if (!fileSons.exists()){ // si ce fichier n'existe pas
@@ -312,7 +282,7 @@ public class SliderDownloaderV2 {
 	    // le programme est terminé
 		ecrire(fileErreur, prog.getliste_erreur(), "\n"); // ecrit la liste des erreurs dans le fichier liste_erreur			
 		playSound("Ressources/ah_denis.wav"); // joue le fameux "AH" de Denis Brogniart
-		ecrire(new File(getFirstLine(filePath)) , ""); // vide la liste des de l'utilisateur
+		ecrire(new Fichier(filePath.getFirstLine()) , ""); // vide la liste des de l'utilisateur
 					
 		end.setCompteurLignes(prog.getCompteurLignes());
 		end.setCompteurErreur(prog.getCompteurErreur());
