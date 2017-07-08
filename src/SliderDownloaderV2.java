@@ -308,6 +308,7 @@ public class SliderDownloaderV2 {
 			}
 	    
 	    fenetre.setContentPane(accueil); //affiche l'accueil
+	    // positionne les différents bouton de l'accueil
 		fenetre.getContentPane().setLayout(null);
 	    fenetre.getContentPane().add(btnOpen);
 	    fenetre.getContentPane().add(btnSelect);
