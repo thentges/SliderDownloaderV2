@@ -29,6 +29,8 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /*       						TODO
+ * 	selecteur CAS path incorrect / inexistant : 
+	annuler >>> AFFICHE JOPTION PANE + relancer savePath 
  *  REGLER SOUCIS DOUBLES FENETRES (CHEEDRA) -- possiblement fix, en attente retour chidra
  *  MAJ ReadMe -- BUT + Comment l'utiliser (archive ...) + comment il fonctionne?
  *  Description sur git
@@ -128,13 +130,7 @@ public class SliderDownloaderV2 {
 		    return -1;
 		}
 	
-	public static void FileChooser(File filePath){
-		JFileChooser selecteur = new JFileChooser();
-		FileNameExtensionFilter filtre = new FileNameExtensionFilter("Fichiers .txt", "txt");
-        selecteur.addChoosableFileFilter(filtre);
-        selecteur.setAcceptAllFileFilterUsed(false);
-        selecteur.setFileFilter(filtre);
-        selecteur.setDialogTitle("Choississez une liste de sons au format .txt");
+	public static void savePath(JFileChooser selecteur, File filePath){
 	    int retour=selecteur.showOpenDialog(null);
 	    if(retour==JFileChooser.APPROVE_OPTION){
 	    	ecrire(filePath , selecteur.getSelectedFile().getAbsolutePath()); // sauvegarde le chemin
@@ -197,6 +193,13 @@ public class SliderDownloaderV2 {
 	    fenetre.setResizable(false);
 	    Accueil accueil = new Accueil();
 	    
+	    // SELECTEUR DE .TXT
+	    JFileChooser selecteur = new JFileChooser();
+		FileNameExtensionFilter filtre = new FileNameExtensionFilter("Fichiers .txt", "txt");
+        selecteur.addChoosableFileFilter(filtre);
+        selecteur.setAcceptAllFileFilterUsed(false);
+        selecteur.setFileFilter(filtre);
+        selecteur.setDialogTitle("Choississez une liste de sons au format .txt");
 	    
 	    //BOUTON OUVRIR LE FICHIER
 	    JButton btnOpen = new JButton("Ouvrir le fichier");
@@ -218,7 +221,7 @@ public class SliderDownloaderV2 {
 	    btnSelect.addActionListener(new ActionListener()  {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-				FileChooser(filePath);
+				savePath(selecteur, filePath);
 			}
 	         });
 	    
@@ -278,11 +281,11 @@ public class SliderDownloaderV2 {
 				System.out.println("jesuisla");
 				File fileSons = new File(getFirstLine(filePath));
 				if (!fileSons.exists()){
-					FileChooser(filePath);
+					savePath(selecteur, filePath);
 				}
 			}
 			else{
-				FileChooser(filePath);
+				savePath(selecteur, filePath);
 			}
 	    fenetre.setContentPane(accueil); //affiche l'accueil
 		fenetre.getContentPane().setLayout(null);
