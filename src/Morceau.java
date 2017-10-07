@@ -57,6 +57,7 @@ public class Morceau {
 		}
 		String link = liste.get(index); // recupere le plus grand lien
 		link = link.replace(" ", "%20"); // reformate ce lien
+		//System.out.println(link);
 		return link;
 	}
 	
@@ -91,39 +92,45 @@ public class Morceau {
 		int fin;
 		// parsing d'une partie du code contenant tout les liens dispo sur slider
 		debut = this.source.indexOf("playlist_gen"); 
-		this.source = this.source.substring(debut);
-		fin = this.source.indexOf("</div>");
-		this.source = this.source.substring(0, fin);
-		//parsing du premier lien
-		debut = this.source.indexOf("/download/");
-		fin = this.source.indexOf(".mp3");
-		fin = fin + 4;
-		if (debut !=-1 && fin !=3){ 
-			String first = this.source.substring(debut, fin);
-			first="http://slider.kz" + first;
-			this.liste_liens.add(first);
-			int compteur=0;
-			// parsing des autres liens
-			while (debut!=-1 && fin!=-1){
-				compteur=compteur+1;
-				if (compteur==8){ // 8 liens max traités
-					break;
-				} 
-				debut = this.source.indexOf("/download/" , debut+10);
-				fin = this.source.indexOf(".mp3" , fin);
-				fin = fin + 4;
-				if (debut != -1 && fin !=3){
-					String second = this.source.substring(debut, fin);
-					second = "http://slider.kz" + second;
-					this.liste_liens.add(second);
+		if (debut != -1){ // handle des erreurs seveurs de slider.
+			this.source = this.source.substring(debut);
+			fin = this.source.indexOf("</div>");
+			this.source = this.source.substring(0, fin);
+			//parsing du premier lien
+			debut = this.source.indexOf("/download/");
+			fin = this.source.indexOf(".mp3");
+			fin = fin + 4;
+			if (debut !=-1 && fin !=3){ 
+				String first = this.source.substring(debut, fin);
+				first="http://slider.kz" + first;
+				this.liste_liens.add(first);
+				int compteur=0;
+				// parsing des autres liens
+				while (debut!=-1 && fin!=-1){
+					compteur=compteur+1;
+					if (compteur==8){ // 8 liens max traités
+						break;
+					} 
+					debut = this.source.indexOf("/download/" , debut+10);
+					fin = this.source.indexOf(".mp3" , fin);
+					fin = fin + 4;
+					if (debut != -1 && fin !=3){
+						String second = this.source.substring(debut, fin);
+						second = "http://slider.kz" + second;
+						this.liste_liens.add(second);
+					}
 				}
+				this.link = getBestLink(this.liste_liens);
+				this.success = true; // on a recup un lien
 			}
-			this.link = getBestLink(this.liste_liens);
-			this.success = true; // on a recup un lien
+			else {
+				this.success = false; // on a pas recup de lien
+			}
 		}
 		else {
-			this.success = false; // on a pas recup de lien
+			this.success = false;
 		}
+		
 	}
 	
 	public Boolean getSuccess(){

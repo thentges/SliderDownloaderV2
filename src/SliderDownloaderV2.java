@@ -207,9 +207,9 @@ public class SliderDownloaderV2 {
 	    btnLaunch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
-				System.out.println(choix);
+				//System.out.println(choix);
 				choix=1;
-				System.out.println(choix);
+				//System.out.println(choix);
 			}
 	    });
 	    
@@ -283,7 +283,7 @@ public class SliderDownloaderV2 {
 	    fenetre.validate();
 	    
 	    while (choix!=1){ // tant que le le bouton lancer le programme n'a pas été pressé
-	    	System.out.println("choix pas égal a 1"); 
+	    	System.out.print("choix pas égal a 1"); 
 	    } // sort quand le bouton a été pressé
 	    
 	    
@@ -309,7 +309,7 @@ public class SliderDownloaderV2 {
 		fenetre.validate();
 							
 		while (choix!=2){ // tant que l'utilisateur n'a pas cliqué sur "retour à l'accueil"
-	    	System.out.println("choix pas égal a 2"); // reste dans la boucle
+	    	System.out.print("choix pas égal a 2"); // reste dans la boucle
 	    } // sort de la boucle quand l'utilisateur a cliqué, et relance donc le "do...while"
 		}while(choix==2);
 	
