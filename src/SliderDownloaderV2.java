@@ -23,7 +23,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 
  * 	Choisir et mettres images pour les JOptionPane.
  *  nettoyer le code (system.out.println de debug)
- *  
+ *  TODO meilleur algo de triage (getBestLink).
+ *  TODO gerer erreur 500 et renvoyer requete si jamais erreur 500 (vec while)
  * 								TODO	
  */ 
 
@@ -48,7 +49,7 @@ public class SliderDownloaderV2 {
         }
 	}	
 	
-	private static void ecrire(Fichier fichier, String str){ // ECRITURE d'un string dans fichier
+	static void ecrire(Fichier fichier, String str){ // ECRITURE d'un string dans fichier
 		try {
 			fichier.createNewFile(); // crée le fichier s'il n'existe pas
             final FileWriter writer = new FileWriter(fichier.getFile().getAbsolutePath()); // création d'un writer
@@ -122,19 +123,20 @@ public class SliderDownloaderV2 {
 	
 	private static void open(String url){
 		URI uri;
-		try {
-			uri = new URI(url);
-			try
-			{
-				java.awt.Desktop.getDesktop().browse(uri);
+			try {
+				uri = new URI(url);
+				try
+				{
+					java.awt.Desktop.getDesktop().browse(uri);
+				}
+				catch (IOException exc)
+				{
+			    	System.out.println("Exception: " + exc.toString());
+				}
+			} catch (URISyntaxException e) {
+				ecrire(new Fichier("logs.txt"), url);
+				e.printStackTrace();
 			}
-			catch (IOException exc)
-			{
-		    	System.out.println("Exception: " + exc.toString());
-			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
 		
 	}
 	
@@ -309,7 +311,7 @@ public class SliderDownloaderV2 {
 		fenetre.validate();
 							
 		while (choix!=2){ // tant que l'utilisateur n'a pas cliqué sur "retour à l'accueil"
-	    	System.out.print("choix pas égal a 2"); // reste dans la boucle
+	    	System.out.print("choix pas égal à 2");// reste dans la boucle
 	    } // sort de la boucle quand l'utilisateur a cliqué, et relance donc le "do...while"
 		}while(choix==2);
 	

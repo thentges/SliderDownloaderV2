@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -56,8 +57,17 @@ public class Morceau {
 			}
 		}
 		String link = liste.get(index); // recupere le plus grand lien
-		link = link.replace(" ", "%20"); // reformate ce lien
+		//link = link.replace(" ", "%20"); // reformate ce lien
+		try {
+			link = java.net.URLEncoder.encode(link, "UTF-8");
+			link = link.replace("%2F", "/");
+			link = link.replace("%3A", ":");
+			link = link.replaceAll("2B", "+");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		//System.out.println(link);
+		SliderDownloaderV2.ecrire(new Fichier("logs.txt"), link);
 		return link;
 	}
 	
@@ -90,46 +100,53 @@ public class Morceau {
 	public void parse(){
 		int debut;
 		int fin;
-		// parsing d'une partie du code contenant tout les liens dispo sur slider
-		debut = this.source.indexOf("playlist_gen"); 
-		if (debut != -1){ // handle des erreurs seveurs de slider.
-			this.source = this.source.substring(debut);
-			fin = this.source.indexOf("</div>");
-			this.source = this.source.substring(0, fin);
-			//parsing du premier lien
-			debut = this.source.indexOf("/download/");
-			fin = this.source.indexOf(".mp3");
-			fin = fin + 4;
-			if (debut !=-1 && fin !=3){ 
-				String first = this.source.substring(debut, fin);
-				first="http://slider.kz" + first;
-				this.liste_liens.add(first);
-				int compteur=0;
-				// parsing des autres liens
-				while (debut!=-1 && fin!=-1){
-					compteur=compteur+1;
-					if (compteur==8){ // 8 liens max traités
-						break;
-					} 
-					debut = this.source.indexOf("/download/" , debut+10);
-					fin = this.source.indexOf(".mp3" , fin);
-					fin = fin + 4;
-					if (debut != -1 && fin !=3){
-						String second = this.source.substring(debut, fin);
-						second = "http://slider.kz" + second;
-						this.liste_liens.add(second);
+		Boolean noInternalError = true;
+		// parsing d'une partie du code contenant tout les liens dispo sur slider 
+		do {
+			debut = this.source.indexOf("playlist_gen");
+			
+			if (this.source.indexOf("Internal Server Error") != -1){
+				noInternalError = false;
+			}
+			else if (debut != -1){ // handle bis des erreurs seveurs de slider.
+				this.source = this.source.substring(debut);
+				fin = this.source.indexOf("</div>");
+				this.source = this.source.substring(0, fin);
+				//parsing du premier lien
+				debut = this.source.indexOf("/download/");
+				fin = this.source.indexOf(".mp3");
+				fin = fin + 4;
+				if (debut !=-1 && fin !=3){ 
+					String first = this.source.substring(debut, fin);
+					first="http://slider.kz" + first;
+					this.liste_liens.add(first);
+					int compteur=0;
+					// parsing des autres liens
+					while (debut!=-1 && fin!=-1){
+						compteur=compteur+1;
+						if (compteur==8){ // 8 liens max traités
+							break;
+						} 
+						debut = this.source.indexOf("/download/" , debut+10);
+						fin = this.source.indexOf(".mp3" , fin);
+						fin = fin + 4;
+						if (debut != -1 && fin !=3){
+							String second = this.source.substring(debut, fin);
+							second = "http://slider.kz" + second;
+							this.liste_liens.add(second);
+						}
 					}
+					this.link = getBestLink(this.liste_liens);
+					this.success = true; // on a recup un lien
 				}
-				this.link = getBestLink(this.liste_liens);
-				this.success = true; // on a recup un lien
+				else {
+					this.success = false; // on a pas recup de lien
+				}
 			}
 			else {
-				this.success = false; // on a pas recup de lien
+				this.success = false;
 			}
-		}
-		else {
-			this.success = false;
-		}
+		}while (!noInternalError);
 		
 	}
 	
