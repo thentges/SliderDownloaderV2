@@ -24,7 +24,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 	Choisir et mettres images pour les JOptionPane.
  *  nettoyer le code (system.out.println de debug)
  *  TODO meilleur algo de triage (getBestLink).
- *  TODO gerer erreur 500 et renvoyer requete si jamais erreur 500 (vec while)
+ *  
+ *  TODO OPTION POUR ALBUMS 
+ *  https://www.allmusic.com/{{nomalbumartisteetc (fichier txt}}
+ *  chopper lien vers le good album (premier surement)
+ *  chopper la list sur la page du good album
+ *  REQUETES HTTP CLASSIQUE SI POSSIBLE. (+ rapide, no JS, verifier pas de JS)
+ *  
  * 								TODO	
  */ 
 
@@ -146,7 +152,6 @@ public class SliderDownloaderV2 {
 	// choix = 2 > revient a la page d'accueil
 	
 	public static void main(String[] args) {
-		
 		Fichier filePath = new Fichier("Ressources/path.txt"); // fichier dans lequel le chemin de la liste de sons est enregistré
 		Fichier fileErreur = new Fichier("liste_erreur.txt"); // liste des erreurs
 		
