@@ -65,9 +65,11 @@ public class Morceau {
 			link = link.replaceAll("2B", "+");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			SliderDownloaderV2.ecrire(new Fichier("logs.txt"), "CEUMORT ::  " + link + "\n", false);
+			SliderDownloaderV2.ecrire(new Fichier("logs.txt"), "::EEE::  " + e + "\n \n", false);
 		}
 		//System.out.println(link);
-		SliderDownloaderV2.ecrire(new Fichier("logs.txt"), link);
+		SliderDownloaderV2.ecrire(new Fichier("logs.txt"), "CEUMORT ::  " + link + "\n \n", false);
 		return link;
 	}
 	
