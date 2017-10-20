@@ -59,9 +59,12 @@ public class Programme implements Runnable {
         //On exécute chaque "Runnable" de la liste "runnables"
 		for(Runnable r : runnables){
 			service.execute(r);
-		}
-		
+		} 
+	
 		service.shutdown();
+		while(!service.isTerminated()){
+	    	System.out.println("attente");
+	    }
 		// le programme est terminé
 		//ecrire(fileErreur, prog.getliste_erreur(), "\n"); // ecrit la liste des erreurs dans le fichier liste_erreur			
 		//playSound("Ressources/ah_denis.wav"); // joue le fameux "AH" de Denis Brogniart
@@ -102,7 +105,7 @@ public class Programme implements Runnable {
 			try { 
 				String line;
 				while ( (line = buff.readLine()) != null){	// tant que la ligne lue n'est pas nulle
-					runnables.add(new Instance(line, fileErreur, fileSuccess));
+					runnables.add(new Instance(line, fileErreur, fileSuccess, chargement));
 				}		
 					buff.close(); //Lecture fini donc on ferme le flux 
 				} 

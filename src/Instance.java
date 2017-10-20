@@ -1,7 +1,15 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
 
@@ -10,6 +18,8 @@ public class Instance implements Runnable {
 	private String line;
 	private Fichier fileErreur;
 	private Fichier fileSuccess;
+	private Chargement chargement;
+
 	
 	private static void open(String url){
 		URI uri;
@@ -28,10 +38,11 @@ public class Instance implements Runnable {
 				ecrire(new Fichier("logs.txt"), "::EEE::  " + e, false);
 			}
 	}
-	public Instance(String line, Fichier fileErreur, Fichier fileSuccess) {
+	public Instance(String line, Fichier fileErreur, Fichier fileSuccess, Chargement chargement) {
 		this.line = line;
 		this.fileErreur = fileErreur;
 		this.fileSuccess= fileSuccess;
+		this.chargement=chargement;
 	}
 			
 	static void ecrire(Fichier fichier, String str, Boolean delete){ // ECRITURE d'un string dans fichier
@@ -59,15 +70,26 @@ public class Instance implements Runnable {
 		Morceau.setSource(); // recupere code source de la page après execution du JS
 		Morceau.parse(); // parse le code source pour en extraire le lien de dl
 		if (Morceau.getSuccess()) { // si le programme a trouvé un lien
-			//ecrire(fileSuccess, Morceau.getLink()); // ajoute le lien a la liste de liens
-			//compteurLignes = compteurLignes + 1; //MAJ le compteur
-			open(Morceau.getLink());
+			//open(Morceau.getLink());
+			URL website = null;
+			try {
+				website = new URL(Morceau.getLink());
+			} catch (MalformedURLException e) {}
+			ReadableByteChannel rbc = null;
+			try {
+				rbc = Channels.newChannel(website.openStream());
+			} catch (IOException e1) {}
+			FileOutputStream fos = null;
+			try {
+				fos = new FileOutputStream(this.line + ".mp3");
+			} catch (FileNotFoundException e) {}
+			try {
+				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			} catch (IOException e) {}
+			chargement.plusCompteurLignes();
 		 }
 		  else { // si le programme n'a pas trouvé de lien
-		    //compteurErreur = compteurErreur + 1; //MAJ les compteurs
-		    //compteurLignes = compteurLignes + 1;
 			  ecrire(fileErreur, Morceau.getLink(), false); // ajoute le nom du morceau à la liste des erreurs
-		    
 		  }
 	}
 

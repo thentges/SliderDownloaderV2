@@ -28,13 +28,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 
  * 	Choisir et mettres images pour les JOptionPane.
  *  nettoyer le code (system.out.println de debug)
- *  TODO meilleur algo de triage (getBestLink).
  *  
  *  TODO OPTION POUR ALBUMS 
  *  https://www.allmusic.com/{{nomalbumartisteetc (fichier txt}}
  *  chopper lien vers le good album (premier surement)
  *  chopper la list sur la page du good album
  *  REQUETES HTTP CLASSIQUE SI POSSIBLE. (+ rapide, no JS, verifier pas de JS)
+ *  
+ *  TODO BOUTON OUVRIR DOSSIER DE DL A LA PLACE DE TELECHARGER LES SONS
+ *  
+ *  tenter vraie asynchrone
  *  
  * 								TODO	
  */ 
@@ -321,6 +324,9 @@ public class SliderDownloaderV2 {
 	    ExecutorService ES = Executors.newSingleThreadExecutor();
 	    ES.execute(prog); // lance le programme
 	    ES.shutdown();
+	    while(!ES.isTerminated()){
+	    	System.out.println("attente");
+	    }
 	    //prog.execute(chargement); // lancement du programme
 	    
 	    // le programme est terminé

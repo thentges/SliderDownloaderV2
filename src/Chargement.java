@@ -19,11 +19,14 @@ public class Chargement extends JPanel {
 	public void setCompteurLignes(int nb){
 		this.compteurLignes=nb;
 	}
+	
+	public void plusCompteurLignes(){
+		this.compteurLignes++;
+	}
 
 public void paintComponent(Graphics g){
 	Fichier filePath = new Fichier("Ressources/path.txt");
 	Fichier fileSons = new Fichier(filePath.getFirstLine());
-	
 		// GIF 
 		Image icon = new ImageIcon("Ressources/chargement.gif").getImage();
 		g.drawImage(icon, 0, 0, this);
@@ -41,10 +44,10 @@ public void paintComponent(Graphics g){
 	    FontMetrics metricsEnCours = g.getFontMetrics(fontEnCours);
 	    g.setFont(fontEnCours);
 	    g.setColor(Color.WHITE);
-	    if (nom!=null){
-	    String strEnCours = nom;
-	    g.drawString(strEnCours, (300 - metricsEnCours.stringWidth(strEnCours))/2, 120); 
-	    }
+	    //if (nom!=null){
+	    //String strEnCours = nom;
+	    //g.drawString(strEnCours, (300 - metricsEnCours.stringWidth(strEnCours))/2, 120); 
+	    //}
 	    // COMPTEUR
 	    int nbLignes = fileSons.getNbLignes();
 	    Font fontRecap = new Font("Arial", Font.ITALIC, 12);
