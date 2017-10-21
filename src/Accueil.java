@@ -22,7 +22,7 @@ public class Accueil extends JPanel {
 	    FontMetrics metricsFooter = g.getFontMetrics(fontFooter);
 	    g.setFont(fontFooter);
 	    g.setColor(Color.GRAY);
-	    String strFooter = "SliderDownloader v.2.2 par Thibault HENTGÈS";
+	    String strFooter = "SliderDownloader v.3.0 par Thibault HENTGÈS";
 	    g.drawString(strFooter, (300 - metricsFooter.stringWidth(strFooter))/2, 370);   
 	    // LOGO HEADER
 	    try {

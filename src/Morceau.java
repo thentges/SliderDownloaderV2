@@ -59,17 +59,18 @@ public class Morceau {
 		String link = liste.get(index); // recupere le plus grand lien
 		//link = link.replace(" ", "%20"); // reformate ce lien
 		try {
+			SliderDownloaderV2.ecrire(SliderDownloaderV2.logs, "LINK ::  " + link, false);
 			link = java.net.URLEncoder.encode(link, "UTF-8");
 			link = link.replace("%2F", "/");
 			link = link.replace("%3A", ":");
 			link = link.replaceAll("2B", "+");
+			SliderDownloaderV2.ecrire(SliderDownloaderV2.logs, "encoded ::  " + link, false);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			SliderDownloaderV2.ecrire(new Fichier("logs.txt"), "CEUMORT ::  " + link + "\n", false);
-			SliderDownloaderV2.ecrire(new Fichier("logs.txt"), "::EEE::  " + e + "\n \n", false);
+			SliderDownloaderV2.ecrire(SliderDownloaderV2.logs, "encoded ::  " + link, false);
+			SliderDownloaderV2.ecrire(SliderDownloaderV2.logs, "::EEE::  " + e, false);
 		}
 		//System.out.println(link);
-		SliderDownloaderV2.ecrire(new Fichier("logs.txt"), "CEUMORT ::  " + link + "\n \n", false);
 		return link;
 	}
 	

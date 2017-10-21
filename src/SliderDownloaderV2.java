@@ -42,7 +42,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 								TODO	
  */ 
 
+
 public class SliderDownloaderV2 {
+	public static Fichier logs = new Fichier("logs.txt");
+	
 	
 	private static void ecrire(Fichier fichier, ArrayList<String> array, String separateur){ // ECRITURE de array dans fichier
 		try {
@@ -149,8 +152,8 @@ public class SliderDownloaderV2 {
 			    	System.out.println("Exception: " + exc.toString());
 				}
 			} catch (URISyntaxException e) {
-				ecrire(new Fichier("logs.txt"), "OPENING ::  " + url, false);
-				ecrire(new Fichier("logs.txt"), "::EEE::  " + e, false);
+				ecrire(logs, "OPENING ::  " + url, false);
+				ecrire(logs, "::EEE::  " + e, false);
 			}
 	}
 	
@@ -252,8 +255,8 @@ public class SliderDownloaderV2 {
 			}
 	    });
 	    
-	    //	BOUTON TELECHARGER 
-		JButton btnDL = new JButton("Telecharger les morceaux");
+	    //	BOUTON OUVRIR LE DOSSIER DE DL
+		JButton btnDL = new JButton("Voir le dossier");
 		btnDL.setBounds(50, 190, 200, 50);
 		    
 // fin de l'initialisation des vues    
@@ -264,26 +267,11 @@ public class SliderDownloaderV2 {
 				@Override
 				public void actionPerformed(ActionEvent e) { //LORSQU'ON CLIQUE SUR LE BTN
 					if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(java.awt.Desktop.Action.BROWSE)){
-						playSound("Ressources/ah_denis.wav"); // joue le fameux "AH" de Denis Brogniart
-						/*try{ 
-							BufferedReader buff = new BufferedReader(new FileReader(fileSuccess.getFirstLine())); 
-							try { 
-								String link;
-								while ( (link = buff.readLine()) != null){	// tant que la ligne lue n'est pas nulle
-								open(link);
-								}		
-									buff.close(); //Lecture fini donc on ferme le flux 
-								} 
-								catch (IOException exc){ 
-									System.out.println(exc.getMessage()); 
-									System.exit(1); 
-								} 
-						} 
-						catch (IOException exc) { 
-							System.out.println(exc.getMessage()); 
-							System.exit(1); 
-							ecrire(new Fichier("logs.txt"), "DOWNLOAD EEE ::  " + e, false);
-						}*/
+						//playSound("Ressources/ah_denis.wav"); // joue le fameux "AH" de Denis Brogniart
+						// ouvrir dossier ici
+						try {
+							java.awt.Desktop.getDesktop().browse(new URI("Downloads/"));
+						} catch (IOException | URISyntaxException e1) {}
 					}
 				}
 	    	});
@@ -321,11 +309,11 @@ public class SliderDownloaderV2 {
 	    fenetre.setContentPane(chargement); // afficher l'écran de chargement
 	    fenetre.validate();
 	    
-	    ExecutorService ES = Executors.newSingleThreadExecutor();
-	    ES.execute(prog); // lance le programme
-	    ES.shutdown();
-	    while(!ES.isTerminated()){
-	    	System.out.println("attente");
+	    prog.getExecutorService().execute(prog);
+	    //ExecutorService ES = Executors.newSingleThreadExecutor();
+	    //ES.execute(prog); // lance le programme
+	    while(!prog.getExecutorService().isTerminated()){
+	    	System.out.println("");
 	    }
 	    //prog.execute(chargement); // lancement du programme
 	    

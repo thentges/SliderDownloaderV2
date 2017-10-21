@@ -24,7 +24,12 @@ public class Programme implements Runnable {
 	//private int compteurErreur=0;
 	private Chargement chargement;
 	private ArrayList<Runnable> runnables = new ArrayList<Runnable>();
-	//private ArrayList<Morceau> liste_morceaux = new ArrayList<Morceau>();
+	private ExecutorService execute = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+	public ExecutorService getExecutorService(){
+		return this.execute;
+	}
+	
 	private static void playSound(String morceau){ // joue un son (string=path du fichier)
 		try {
 		 	File son = new File(morceau);
@@ -118,8 +123,7 @@ public class Programme implements Runnable {
 			System.out.println(e.getMessage()); 
 			System.exit(1); 
 		}
-		//Pool
-		ExecutorService execute = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		// execute toutes les instances
 		executeRunnables(execute, runnables);	
 	}	
 }

@@ -19,7 +19,6 @@ public class Instance implements Runnable {
 	private Fichier fileErreur;
 	private Fichier fileSuccess;
 	private Chargement chargement;
-
 	
 	private static void open(String url){
 		URI uri;
@@ -34,8 +33,8 @@ public class Instance implements Runnable {
 			    	System.out.println("Exception: " + exc.toString());
 				}
 			} catch (URISyntaxException e) {
-				ecrire(new Fichier("logs.txt"), "OPENING ::  " + url, false);
-				ecrire(new Fichier("logs.txt"), "::EEE::  " + e, false);
+				ecrire(SliderDownloaderV2.logs, "OPENING ::  " + url, false);
+				ecrire(SliderDownloaderV2.logs, "::EEE::  " + e, false);
 			}
 	}
 	public Instance(String line, Fichier fileErreur, Fichier fileSuccess, Chargement chargement) {
@@ -81,7 +80,7 @@ public class Instance implements Runnable {
 			} catch (IOException e1) {}
 			FileOutputStream fos = null;
 			try {
-				fos = new FileOutputStream(this.line + ".mp3");
+				fos = new FileOutputStream("Downloads/"+this.line + ".mp3");
 			} catch (FileNotFoundException e) {}
 			try {
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
@@ -89,7 +88,7 @@ public class Instance implements Runnable {
 			chargement.plusCompteurLignes();
 		 }
 		  else { // si le programme n'a pas trouvé de lien
-			  ecrire(fileErreur, Morceau.getLink(), false); // ajoute le nom du morceau à la liste des erreurs
+			  ecrire(fileErreur, this.line, false); // ajoute le nom du morceau à la liste des erreurs
 		  }
 	}
 
