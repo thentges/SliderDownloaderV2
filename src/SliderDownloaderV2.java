@@ -35,9 +35,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *  chopper la list sur la page du good album
  *  REQUETES HTTP CLASSIQUE SI POSSIBLE. (+ rapide, no JS, verifier pas de JS)
  *  
- *  TODO BOUTON OUVRIR DOSSIER DE DL A LA PLACE DE TELECHARGER LES SONS
+ *  TODO BOUTON OUVRIR DOSSIER DE DL A LA PLACE DE TELECHARGER LES SONS TODO telecharger les sons pas analyser
  *  
- *  tenter vraie asynchrone
+ *  mieux parser pour vrmt avoir le bon lien
+ *  menu stylé pdt chargement avec liste sons statut etc
  *  
  * 								TODO	
  */ 
@@ -313,7 +314,7 @@ public class SliderDownloaderV2 {
 	    //ExecutorService ES = Executors.newSingleThreadExecutor();
 	    //ES.execute(prog); // lance le programme
 	    while(!prog.getExecutorService().isTerminated()){
-	    	System.out.println("");
+	    	int wed = 420;
 	    }
 	    //prog.execute(chargement); // lancement du programme
 	    

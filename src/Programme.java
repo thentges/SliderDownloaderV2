@@ -68,7 +68,6 @@ public class Programme implements Runnable {
 	
 		service.shutdown();
 		while(!service.isTerminated()){
-	    	System.out.println("attente");
 	    }
 		// le programme est terminé
 		//ecrire(fileErreur, prog.getliste_erreur(), "\n"); // ecrit la liste des erreurs dans le fichier liste_erreur			

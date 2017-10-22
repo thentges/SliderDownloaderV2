@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -19,6 +20,28 @@ public class Instance implements Runnable {
 	private Fichier fileErreur;
 	private Fichier fileSuccess;
 	private Chargement chargement;
+	
+	public static void download(String url, String file) throws Exception {
+
+		System.out.println("Downloading " + file);
+		file = "Downloads/"+file+".mp3";
+		URL website = new URL(url);
+		URLConnection connection = website.openConnection();
+		ReadableByteChannel rbc = Channels.newChannel(connection.getInputStream());
+		FileOutputStream fos = new FileOutputStream(file);
+		long expectedSize = connection.getContentLength();
+		System.out.println("Expected size: " + expectedSize);
+		long transferedSize = 0L;
+		while (transferedSize < expectedSize) {
+		long delta = fos.getChannel().transferFrom(rbc, transferedSize, 1 << 16);
+		transferedSize += delta;
+		System.out.println(transferedSize + " bytes received");
+		}
+		fos.close();
+		System.out.println("Download complete");
+		System.out.println("Size: " + new File(file).length());
+
+		}
 	
 	private static void open(String url){
 		URI uri;
@@ -70,22 +93,32 @@ public class Instance implements Runnable {
 		Morceau.parse(); // parse le code source pour en extraire le lien de dl
 		if (Morceau.getSuccess()) { // si le programme a trouvé un lien
 			//open(Morceau.getLink());
-			URL website = null;
+			/*URL website = null;
 			try {
 				website = new URL(Morceau.getLink());
 			} catch (MalformedURLException e) {}
-			ReadableByteChannel rbc = null;
+			ReadableByteChannel morceau = null;
 			try {
-				rbc = Channels.newChannel(website.openStream());
+				morceau = Channels.newChannel(website.openStream()); 
+				ecrire(SliderDownloaderV2.logs, "size :::  >" + Morceau.size() + "\n", false);
 			} catch (IOException e1) {}
-			FileOutputStream fos = null;
+			FileOutputStream downloaded = null;
 			try {
-				fos = new FileOutputStream("Downloads/"+this.line + ".mp3");
+				downloaded = new FileOutputStream("Downloads/"+this.line + ".mp3");
+					
 			} catch (FileNotFoundException e) {}
 			try {
-				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-			} catch (IOException e) {}
-			chargement.plusCompteurLignes();
+				System.out.println(downloaded.getChannel().size());
+				while (downloaded.getChannel().size() != Morceau.size()){
+					System.out.println(downloaded.getChannel().size());
+				}
+				downloaded.getChannel().transferFrom(morceau, 0, Long.MAX_VALUE);
+				
+			} catch (IOException e) {}*/
+			try {
+				download(Morceau.getLink(), this.line);
+			} catch (Exception e) {}
+			//chargement.plusCompteurLignes();
 		 }
 		  else { // si le programme n'a pas trouvé de lien
 			  ecrire(fileErreur, this.line, false); // ajoute le nom du morceau à la liste des erreurs

@@ -18,6 +18,7 @@ public class Morceau {
 	private String endName;
 	private ArrayList<String> liste_liens = new ArrayList<String>();
 	private Boolean success; // true si ça a fonctionné false si ça a fail
+	private int size;
 	
 	//	METHODES INTERNES
 	private String sliderify(String line){
@@ -26,6 +27,7 @@ public class Morceau {
 		return lien;
 	}
 	
+
 	private int getFileSize(String path){ // recupère le poids d'un fichier depuis son URL web
 		try {
 		        URL url=new URL(path);
@@ -57,6 +59,7 @@ public class Morceau {
 			}
 		}
 		String link = liste.get(index); // recupere le plus grand lien
+		this.size = getFileSize(liste.get(index)); // recupere son poid
 		//link = link.replace(" ", "%20"); // reformate ce lien
 		try {
 			SliderDownloaderV2.ecrire(SliderDownloaderV2.logs, "LINK ::  " + link, false);
@@ -82,6 +85,10 @@ public class Morceau {
 	}
 	
 	//	METHODES EXTERNES
+	
+	public int size(){
+		return this.size;
+	}
 	
 	public void setSource(){
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);

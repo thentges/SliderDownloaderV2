@@ -59,7 +59,7 @@ public void paintComponent(Graphics g){
 	    g.drawRect(50, 150, 200, 20);
 	    if (nbLignes!=0){
 		    int division = 200/nbLignes;
-		    g.setColor(Color.GREEN);
+		    g.setColor(new Color(127, 255, 0, 127));
 		    if (compteurLignes*division <= 200){
 		    	g.fillRect(50, 151, compteurLignes*division, 18);
 		    }
